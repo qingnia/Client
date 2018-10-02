@@ -65,8 +65,9 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
     <Compile Include="Assets\Scripts\utils\CommonFun.cs" />
+    <Compile Include="Assets\Scripts\utils\Config.cs" />
+    <Compile Include="Assets\Scripts\utils\CSVFileHelper.cs" />
     <Compile Include="Assets\Scripts\utils\diyType.cs" />
-    <Compile Include="Assets\Scripts\utils\NewClass.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/chenshuai/Desktop/test/Client/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

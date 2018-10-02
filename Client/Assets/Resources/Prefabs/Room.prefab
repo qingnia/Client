@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 23968856719973208}
   - component: {fileID: 102656283196056800}
   m_Layer: 0
-  m_Name: New Text
+  m_Name: NameContext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e20a9374bca401bbe75f84f2ca1356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameContext: {fileID: 102656283196056800}
   northWall: {fileID: 23523220163043234}
   RightWall: {fileID: 23921574755861546}
   southWall: {fileID: 23722172264163646}
