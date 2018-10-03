@@ -11,8 +11,9 @@ public class Room : MonoBehaviour {
 
     public void InitRoom(int id, Vector3 v3)
     {
+        Vector3 pos = CommonFun.Vector2RoomPos(v3);
         Config cf = Config.GetInstance();
-        transform.position = v3;
+        transform.position = pos;
 
         Dictionary<string, string> roomConfig = cf.GetRoomConfig(id);
         roomName = roomConfig["name"];
