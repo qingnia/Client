@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Protobuf;
 
 public class Room : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class Room : MonoBehaviour {
     public TextMesh nameContext;
     public MeshRenderer northWall, RightWall, southWall, LeftWall;
     int[] exportArray = { 0, 1, 1, 1 };
+
 
     public void InitRoom(int id, Vector3 v3)
     {
