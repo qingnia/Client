@@ -43,11 +43,11 @@ namespace Net
                 return;
             }
             //服务器下发数据长度
-            int receiveLength = clientSocket.Receive(result);
-            ByteBuffer buffer = new ByteBuffer(result);
-            int len = buffer.ReadShort();
-            string data = buffer.ReadString();
-            Debug.Log("服务器返回数据：" + data);
+            //int receiveLength = clientSocket.Receive(result);
+            //ByteBuffer buffer = new ByteBuffer(result);
+            //int len = buffer.ReadShort();
+            //string data = buffer.ReadString();
+            //Debug.Log("服务器返回数据：" + data);
         }
 
         /// <summary>

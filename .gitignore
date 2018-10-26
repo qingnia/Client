@@ -2,3 +2,10 @@ Client/obj/
 Client/Temp/
 Client/Library/
 Client/Library/metadata/
+*.sln
+*.csproj
+*.ide
+*.ide-shm
+*.ide-wal
+Client/.vs/Client/v15/.suo
+*.csproj

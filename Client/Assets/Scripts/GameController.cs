@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public List<Player> playerList = new List<Player>();
     private Dictionary<int, Dictionary<int, Room>> roomMap;
+
     //Room[][] roomMaps = new Room[100][];
 
     private GameObject playerPrefab;
@@ -15,6 +17,9 @@ public class GameController : MonoBehaviour
 
     private int currentPlayerID;
     private int roomCount = 1;
+
+    public string serverURL;
+    public int port;
 
     // Use this for initialization
     void Start()
@@ -25,6 +30,7 @@ public class GameController : MonoBehaviour
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
         InitPlayerList();
         InitRoomMap();
+        ConnectServer();
     }
 
     // Update is called once per frame
@@ -36,6 +42,9 @@ public class GameController : MonoBehaviour
         {
             return;
         }
+
+        Debug.Log("senddddddddddd");
+        singleNet.Instance.sendGameMsg();
         PlayerTryMove(p, dir);
     }
 
@@ -114,5 +123,11 @@ public class GameController : MonoBehaviour
         Room room = go.GetComponent<Room>();
         room.InitRoom(roomID, v3);
         return room;
+    }
+    
+    void ConnectServer()
+    {
+        singleNet.Instance.connectGameServer(serverURL, port);
+        
     }
 }
