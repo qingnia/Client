@@ -9,3 +9,4 @@ Client/Library/metadata/
 *.ide-wal
 Client/.vs/Client/v15/.suo
 *.csproj
+Client/.vs/

@@ -126,14 +126,26 @@ public class singleNet : SingleInstance<singleNet>
         pbHead.Session_id = lastSessionID++;
         pbHead.Function_name = "rpcMsg:add";
 
+        //Thrift.Transport.TBufferedTransport buffer = new Thrift.Transport.TBufferedTransport(new Thrift.Transport.TMemoryBuffer(), 1024);
+        Thrift.Transport.TMemoryBuffer buffer = new Thrift.Transport.TMemoryBuffer();
+        TProtocol protocol = new TBinaryProtocol(buffer);
+        pbHead.Write(protocol);
+
+        //Thrift.Transport.TMemoryBuffer testReadBuff = new Thrift.Transport.TMemoryBuffer();
+        //TProtocol testRead = new TBinaryProtocol(testReadBuff);
+        ProtoBufRpcHead testReadBuff = new ProtoBufRpcHead();
+        testReadBuff.Read(protocol);
 
         byte[] pbdata = protoNet.Serialize(pbuf);
         //byte[] tfdata = protoNet.Serialize(pbHead);
         ByteBuffer buff = new ByteBuffer();
 
         TcpMsgHead tmh = new TcpMsgHead();
-        tmh._data_len = (UInt32)pbdata.Length;
+
+        byte[] pbHeadBytes = buffer.GetBuffer();
+        tmh._data_len = (UInt32)(pbdata.Length + pbHeadBytes.Length + pbdata.Length);
         //buff.WriteBytes(StructToBytes(tmh));
+
 
 
         //byte[] headBytes = System.Text.Encoding.BigEndianUnicode.GetBytes(tmh.ToString());
@@ -141,7 +153,8 @@ public class singleNet : SingleInstance<singleNet>
         buff.WriteUint32(tmh.magic);
         buff.WriteUint32(tmh._version);
         buff.WriteUint32(tmh._data_len);
-        
+
+        buff.WriteBytes(pbHeadBytes);
         buff.WriteBytes(pbdata);
         //byte[] headBytes = StructToBytes(tmh);
         //buff.WriteBytes(headBytes);

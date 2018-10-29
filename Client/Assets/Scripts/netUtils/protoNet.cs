@@ -45,11 +45,13 @@ namespace Net
             stream.Close();
             return null;
         }
-        
+
         public static void ThriftSend(TBase _data)
         {
-            TProtocol protocol = new TBinaryProtocol(new Thrift.Transport.TSocket("118.89.27.78", 9000));
+            Thrift.Transport.TBufferedTransport buffer = new Thrift.Transport.TBufferedTransport(new Thrift.Transport.TMemoryBuffer(), 1024);
+            TProtocol protocol = new TBinaryProtocol(buffer);
             _data.Write(protocol);
+            
 
             /*
             MemoryStream stream = new MemoryStream();
