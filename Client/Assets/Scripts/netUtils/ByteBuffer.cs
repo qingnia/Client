@@ -71,6 +71,28 @@ namespace Net
             writer.Write((int)v);
         }
 
+        public void WriteInt32(Int32 v)
+        {
+            writer.Write((Int32)v);
+        }
+
+        public void WriteInt64(Int64 v)
+        {
+            writer.Write((Int64)v);
+        }
+
+        public void WriteUint32(UInt32 v)
+        {
+            byte[] temp = BitConverter.GetBytes(v);
+            Array.Reverse(temp);
+            writer.Write(BitConverter.ToUInt32(temp, 0));
+        }
+
+        public void WriteUInt64(UInt64 v)
+        {
+            writer.Write((UInt64)v);
+        }
+
         public void WriteShort(ushort v)
         {
             writer.Write((ushort)v);

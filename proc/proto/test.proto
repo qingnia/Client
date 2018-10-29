@@ -5,7 +5,13 @@ package protobuf;//包名
 //一个message相当于一个类
 //1,2,3不代表参数默认值，而是参数标签
 //repeated 可以理解为数组
- 
+
+message testAdd
+{
+  int32 a = 1;
+  int32 b = 2;
+}
+
 message StoreRequest {
   string name = 1;
   int32 num = 2;

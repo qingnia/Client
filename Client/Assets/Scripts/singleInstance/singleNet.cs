@@ -9,11 +9,41 @@ using TCPHelper;
 using System.Net;
 using Net;
 using System.Runtime.InteropServices;
+using Thrift.Transport;
+using Thrift.Protocol;
+
+public enum MSG_TYPE
+{
+    KRPC_CALL = 1,
+    KRPC_REPLY = 2,
+    KRPC_EXCEPTION = 3,
+    KRPC_ONEWAY = 4,
+}
+
+/*
+public class ProtoBufRpcHead
+{
+    static UInt64 lastSessionID = 0;
+    //public Int32 m_version { get; set; }
+    public Int32 m_message_type { get; set; }
+    public UInt64 m_session_id { get; set; }
+    public string m_function_name { get; set; }
+    //public Int64 m_arrived_ms { get; set; }
+    //public Int64 m_dst { get; set; }
+
+    public ProtoBufRpcHead(string functionName, MSG_TYPE msgType)
+    {
+        m_function_name = "rpcMsg:" + functionName;
+        m_message_type = (Int32)msgType;
+        m_session_id = lastSessionID++;
+    }
+}*/
+
 public class TcpMsgHead
 {
-    UInt32 magic = 0xA5A5A5A5;
-    UInt32 _version = 1;
-    UInt32 _data_len = 0;
+    public UInt32 magic = 0xA5A5A5A5;
+    public UInt32 _version = 1;
+    public UInt32 _data_len = 0;
 
     public TcpMsgHead()
     {
@@ -23,14 +53,14 @@ public class TcpMsgHead
     }
 }
 
-
-
 public class singleNet : SingleInstance<singleNet>
 {
 
     public static singleNet netInstance;
     private ClientAsync gameClient = new ClientAsync();
     private System.Runtime.Serialization.IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+    private static int lastSessionID;
 
     private singleNet() { }
 
@@ -80,21 +110,41 @@ public class singleNet : SingleInstance<singleNet>
         tli.Roleid = 123456;
         tli.Roomid = 1232;
 
-        byte[] data = CreateData((int)EnmCmdID.CS_LOGIN_REQ, tli);
-        gameClient.SendAsync(data.ToString());
-    }
+        testAdd ta = new testAdd();
+        ta.A = 111;
+        ta.B = 222;
 
+        byte[] data = CreateData((int)EnmCmdID.CS_LOGIN_REQ, ta);
+        gameClient.SendAsync(data);
+    }
+    
     private byte[] CreateData(int typeId, IMessage pbuf)
     {
+
+        ProtoBufRpcHead pbHead = new ProtoBufRpcHead();
+        pbHead.Msg_type = (int)MSG_TYPE.KRPC_CALL;
+        pbHead.Session_id = lastSessionID++;
+        pbHead.Function_name = "rpcMsg:add";
+
+
         byte[] pbdata = protoNet.Serialize(pbuf);
+        //byte[] tfdata = protoNet.Serialize(pbHead);
         ByteBuffer buff = new ByteBuffer();
 
         TcpMsgHead tmh = new TcpMsgHead();
+        tmh._data_len = (UInt32)pbdata.Length;
         //buff.WriteBytes(StructToBytes(tmh));
 
-        byte[] headBytes = System.Text.Encoding.Default.GetBytes(tmh.ToString());
-        buff.WriteBytes(headBytes);
+
+        //byte[] headBytes = System.Text.Encoding.BigEndianUnicode.GetBytes(tmh.ToString());
+        //byte[] headBytes = System.Text.Encoding.Default.GetBytes(tmh.ToString());
+        buff.WriteUint32(tmh.magic);
+        buff.WriteUint32(tmh._version);
+        buff.WriteUint32(tmh._data_len);
+        
         buff.WriteBytes(pbdata);
+        //byte[] headBytes = StructToBytes(tmh);
+        //buff.WriteBytes(headBytes);
         return WriteMessage(buff.ToBytes());
     }
 
@@ -110,8 +160,8 @@ public class singleNet : SingleInstance<singleNet>
         {
             ms.Position = 0;
             BinaryWriter writer = new BinaryWriter(ms);
-            ushort msglen = (ushort)message.Length;
-            writer.Write(msglen);
+            //ushort msglen = (ushort)message.Length;
+            //writer.Write(msglen);
             writer.Write(message);
             writer.Flush();
             return ms.ToArray();

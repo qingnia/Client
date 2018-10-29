@@ -70,9 +70,9 @@ namespace TCPHelper
         /// 异步发送消息
         /// </summary>
         /// <param name="msg"></param>
-        public void SendAsync(string msg)
+        public void SendAsync(byte[] listData)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
+            //byte[] listData = Encoding.UTF8.GetBytes(msg);
             client.Client.BeginSend(listData, 0, listData.Length, SocketFlags.None, SendCallBack, client);
         }
         /// <summary>

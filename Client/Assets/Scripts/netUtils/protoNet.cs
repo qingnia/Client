@@ -3,6 +3,7 @@ using UnityEditor;
 using System.IO;
 using Protobuf;
 using Google.Protobuf;
+using Thrift.Protocol;
 
 namespace Net
 {
@@ -43,6 +44,25 @@ namespace Net
             }
             stream.Close();
             return null;
+        }
+        
+        public static void ThriftSend(TBase _data)
+        {
+            TProtocol protocol = new TBinaryProtocol(new Thrift.Transport.TSocket("118.89.27.78", 9000));
+            _data.Write(protocol);
+
+            /*
+            MemoryStream stream = new MemoryStream();
+            if (stream != null)
+            {
+                _data.WriteTo(stream);
+                byte[] bytes = stream.ToArray();
+                stream.Close();
+                return bytes;
+            }
+            stream.Close();
+            return null;
+            */
         }
 
         //泛型序列化和反序列化
