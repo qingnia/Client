@@ -17,7 +17,7 @@ namespace TCPHelper
         /// <summary>
         /// 客户端接收消息触发的事件
         /// </summary>
-        public event Action<string, string> Received;
+        public event Action<string, byte[]> Received;
         /// <summary>
         /// 用于控制异步接收消息
         /// </summary>
@@ -106,14 +106,15 @@ namespace TCPHelper
             }
             if (count > 0)
             {
-                string msg = Encoding.UTF8.GetString(obj.ListData, 0, count);
-                if (!string.IsNullOrEmpty(msg))
+                
+                //string msg = Encoding.UTF8.GetString(obj.ListData, 0, count);
+                if (obj.ListData.Length > 0)
                 {
                     if (Received != null)
                     {
                         IPEndPoint iep = obj.Client.Client.RemoteEndPoint as IPEndPoint;
                         string key = string.Format("{0}:{1}", iep.Address, iep.Port);
-                        Received(key, msg);
+                        Received(key, obj.ListData);
                     }
                 }
             }

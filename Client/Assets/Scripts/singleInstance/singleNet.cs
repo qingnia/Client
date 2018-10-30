@@ -20,24 +20,6 @@ public enum MSG_TYPE
     KRPC_ONEWAY = 4,
 }
 
-/*
-public class ProtoBufRpcHead
-{
-    static UInt64 lastSessionID = 0;
-    //public Int32 m_version { get; set; }
-    public Int32 m_message_type { get; set; }
-    public UInt64 m_session_id { get; set; }
-    public string m_function_name { get; set; }
-    //public Int64 m_arrived_ms { get; set; }
-    //public Int64 m_dst { get; set; }
-
-    public ProtoBufRpcHead(string functionName, MSG_TYPE msgType)
-    {
-        m_function_name = "rpcMsg:" + functionName;
-        m_message_type = (Int32)msgType;
-        m_session_id = lastSessionID++;
-    }
-}*/
 
 public class TcpMsgHead
 {
@@ -50,6 +32,23 @@ public class TcpMsgHead
         magic = 0xA5A5A5A5;
         _version = 1;
         _data_len = 0;
+    }
+
+    public TcpMsgHead(byte[] retHead)
+    {
+        byte[] buff = new byte[4];
+
+        Array.ConstrainedCopy(retHead, 0, buff, 0, 4);
+        Array.Reverse(buff);
+        magic = BitConverter.ToUInt32(buff, 0);
+
+        Array.ConstrainedCopy(retHead, 4, buff, 0, 4);
+        Array.Reverse(buff);
+        _version = BitConverter.ToUInt32(buff, 0);
+        
+        Array.ConstrainedCopy(retHead, 8, buff, 0, 4);
+        Array.Reverse(buff);
+        _data_len = BitConverter.ToUInt32(buff, 0);
     }
 }
 
@@ -85,17 +84,45 @@ public class singleNet : SingleInstance<singleNet>
                     break;
             }
         });
-        gameClient.Received += new Action<string, string>((key, msg) =>
+        gameClient.Received += new Action<string, byte[]>((key, msg) =>
         {
-            Debug.Log(key + "对我说：" + msg);
+            //头部消息
+            TcpMsgHead msgHead = new TcpMsgHead(msg);
+            //byte[] msgHead = new byte[16];
+            //Array.ConstrainedCopy(msg, 0, msgHead, 0, 12);
+
+            //thrift消息
+            byte[] thriftBuff = new byte[64];
+            Array.ConstrainedCopy(msg, 12, thriftBuff, 0, 36);
+            ProtoBufRpcHead hhh = Thrift.Transport.TMemoryBuffer.DeSerialize<ProtoBufRpcHead>(thriftBuff);
+
+            //正文
+            int length = (int)msgHead._data_len - 36;
+            byte[] response = new byte[length];
+            Array.ConstrainedCopy(msg, 48, response, 0, length);
+            processMsg(hhh.Function_name, response);
+            //protoNet.Deserialize(getServerMsgType(hhh.Function_name), response);
+            //Debug.Log(key + "对我说：" + msg);
         });
         gameClient.ConnectAsync(serverURL, port);
-        //while (true)
-        //{
-        //  string msg = Console.ReadLine();
-        //client.SendAsync(msg);
-        //}
     }
+
+    private void processMsg(String function, byte[] msg)
+    {
+        switch (function)
+        {
+            case "rpcMsg:add":
+                CalResponse ret = CalResponse.Parser.ParseFrom(msg);
+                //CalResponse ret = (CalResponse)protoNet.Deserialize(CalResponse.Parser, msg);
+                Debug.Log("服务器返回：" + ret.Status);
+                break;
+            case "rpcMsg:login":
+                break;
+            default:
+                break;
+        }
+    }
+
     // Use this for initialization
     public void sendGameMsg()
     {
@@ -111,53 +138,38 @@ public class singleNet : SingleInstance<singleNet>
         tli.Roomid = 1232;
 
         testAdd ta = new testAdd();
-        ta.A = 111;
-        ta.B = 222;
+        System.Random ran = new System.Random();
+        ta.A = ran.Next();
+        ta.B = ran.Next();
 
-        byte[] data = CreateData((int)EnmCmdID.CS_LOGIN_REQ, ta);
+        Debug.Log("计算" + ta.A + " + " + ta.B);
+
+        byte[] data = CreateData(ta, "add");
         gameClient.SendAsync(data);
     }
     
-    private byte[] CreateData(int typeId, IMessage pbuf)
+    private byte[] CreateData(IMessage pbuf, String function)
     {
-
         ProtoBufRpcHead pbHead = new ProtoBufRpcHead();
         pbHead.Msg_type = (int)MSG_TYPE.KRPC_CALL;
         pbHead.Session_id = lastSessionID++;
-        pbHead.Function_name = "rpcMsg:add";
-
-        //Thrift.Transport.TBufferedTransport buffer = new Thrift.Transport.TBufferedTransport(new Thrift.Transport.TMemoryBuffer(), 1024);
-        Thrift.Transport.TMemoryBuffer buffer = new Thrift.Transport.TMemoryBuffer();
-        TProtocol protocol = new TBinaryProtocol(buffer);
-        pbHead.Write(protocol);
-
-        //Thrift.Transport.TMemoryBuffer testReadBuff = new Thrift.Transport.TMemoryBuffer();
-        //TProtocol testRead = new TBinaryProtocol(testReadBuff);
-        ProtoBufRpcHead testReadBuff = new ProtoBufRpcHead();
-        testReadBuff.Read(protocol);
+        pbHead.Function_name = "rpcMsg:" + function;
 
         byte[] pbdata = protoNet.Serialize(pbuf);
-        //byte[] tfdata = protoNet.Serialize(pbHead);
         ByteBuffer buff = new ByteBuffer();
 
         TcpMsgHead tmh = new TcpMsgHead();
+        
+        byte[] pbHeadBytes = Thrift.Transport.TMemoryBuffer.Serialize(pbHead);
+        ProtoBufRpcHead hhh = Thrift.Transport.TMemoryBuffer.DeSerialize<ProtoBufRpcHead>(pbHeadBytes);
+        tmh._data_len = (UInt32)(pbdata.Length + pbHeadBytes.Length);
 
-        byte[] pbHeadBytes = buffer.GetBuffer();
-        tmh._data_len = (UInt32)(pbdata.Length + pbHeadBytes.Length + pbdata.Length);
-        //buff.WriteBytes(StructToBytes(tmh));
-
-
-
-        //byte[] headBytes = System.Text.Encoding.BigEndianUnicode.GetBytes(tmh.ToString());
-        //byte[] headBytes = System.Text.Encoding.Default.GetBytes(tmh.ToString());
         buff.WriteUint32(tmh.magic);
         buff.WriteUint32(tmh._version);
         buff.WriteUint32(tmh._data_len);
 
         buff.WriteBytes(pbHeadBytes);
         buff.WriteBytes(pbdata);
-        //byte[] headBytes = StructToBytes(tmh);
-        //buff.WriteBytes(headBytes);
         return WriteMessage(buff.ToBytes());
     }
 
@@ -173,8 +185,6 @@ public class singleNet : SingleInstance<singleNet>
         {
             ms.Position = 0;
             BinaryWriter writer = new BinaryWriter(ms);
-            //ushort msglen = (ushort)message.Length;
-            //writer.Write(msglen);
             writer.Write(message);
             writer.Flush();
             return ms.ToArray();

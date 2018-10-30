@@ -28,18 +28,17 @@ namespace Protobuf {
             "CQoBYhgCIAEoBSJJCgxTdG9yZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRILCgNu",
             "dW0YAiABKAUSDgoGcmVzdWx0GAMgASgFEg4KBm15TGlzdBgEIAMoCSIvCg10",
             "ZXN0TG9naW5JbmZvEg4KBnJvbGVpZBgBIAEoBRIOCgZyb29taWQYAiABKAUi",
-            "HgoMdGVzdExvZ2luUmV0Eg4KBnN0YXR1cxgBIAEoBSIxCgtDU0xvZ2luSW5m",
-            "bxIQCghVc2VyTmFtZRgBIAEoCRIQCghQYXNzd29yZBgCIAEoCSI2CgpDU0xv",
-            "Z2luUmVxEigKCUxvZ2luSW5mbxgBIAEoCzIVLnByb3RvYnVmLkNTTG9naW5J",
-            "bmZvIiEKCkNTTG9naW5SZXMSEwoLcmVzdWx0X2NvZGUYASABKA1iBnByb3Rv",
-            "Mw=="));
+            "HQoLQ2FsUmVzcG9uc2USDgoGc3RhdHVzGAEgASgFIjEKC0NTTG9naW5JbmZv",
+            "EhAKCFVzZXJOYW1lGAEgASgJEhAKCFBhc3N3b3JkGAIgASgJIjYKCkNTTG9n",
+            "aW5SZXESKAoJTG9naW5JbmZvGAEgASgLMhUucHJvdG9idWYuQ1NMb2dpbklu",
+            "Zm8iIQoKQ1NMb2dpblJlcxITCgtyZXN1bHRfY29kZRgBIAEoDWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.StoreRequest), global::Protobuf.StoreRequest.Parser, new[]{ "Name", "Num", "Result", "MyList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testLoginInfo), global::Protobuf.testLoginInfo.Parser, new[]{ "Roleid", "Roomid" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testLoginRet), global::Protobuf.testLoginRet.Parser, new[]{ "Status" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.CalResponse), global::Protobuf.CalResponse.Parser, new[]{ "Status" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.CSLoginInfo), global::Protobuf.CSLoginInfo.Parser, new[]{ "UserName", "Password" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.CSLoginReq), global::Protobuf.CSLoginReq.Parser, new[]{ "LoginInfo" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.CSLoginRes), global::Protobuf.CSLoginRes.Parser, new[]{ "ResultCode" }, null, null, null)
@@ -568,11 +567,11 @@ namespace Protobuf {
 
   }
 
-  public sealed partial class testLoginRet : pb::IMessage<testLoginRet> {
-    private static readonly pb::MessageParser<testLoginRet> _parser = new pb::MessageParser<testLoginRet>(() => new testLoginRet());
+  public sealed partial class CalResponse : pb::IMessage<CalResponse> {
+    private static readonly pb::MessageParser<CalResponse> _parser = new pb::MessageParser<CalResponse>(() => new CalResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<testLoginRet> Parser { get { return _parser; } }
+    public static pb::MessageParser<CalResponse> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -585,21 +584,21 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public testLoginRet() {
+    public CalResponse() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public testLoginRet(testLoginRet other) : this() {
+    public CalResponse(CalResponse other) : this() {
       status_ = other.status_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public testLoginRet Clone() {
-      return new testLoginRet(this);
+    public CalResponse Clone() {
+      return new CalResponse(this);
     }
 
     /// <summary>Field number for the "status" field.</summary>
@@ -615,11 +614,11 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as testLoginRet);
+      return Equals(other as CalResponse);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(testLoginRet other) {
+    public bool Equals(CalResponse other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -669,7 +668,7 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(testLoginRet other) {
+    public void MergeFrom(CalResponse other) {
       if (other == null) {
         return;
       }

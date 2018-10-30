@@ -126,7 +126,7 @@ namespace Net
 
         public void WriteBytes(byte[] v)
         {
-            writer.Write((int)v.Length);
+            //writer.Write((int)v.Length);
             writer.Write(v);
         }
 

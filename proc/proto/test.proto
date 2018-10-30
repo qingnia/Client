@@ -25,7 +25,7 @@ message testLoginInfo
   int32 roomid = 2;
 }
 
-message testLoginRet
+message CalResponse
 {
   int32 status = 1;
 }
