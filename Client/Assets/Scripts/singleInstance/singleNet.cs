@@ -144,7 +144,10 @@ public class singleNet : SingleInstance<singleNet>
 
         Debug.Log("计算" + ta.A + " + " + ta.B);
 
-        byte[] data = CreateData(ta, "add");
+        chatBroadcast tc = new chatBroadcast();
+        tc.Said = "aaaaaaaaaaaa";
+
+        byte[] data = CreateData(tli, "login");
         gameClient.SendAsync(data);
     }
     

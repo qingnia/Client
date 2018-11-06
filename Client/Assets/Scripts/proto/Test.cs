@@ -25,17 +25,19 @@ namespace Protobuf {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cgp0ZXN0LnByb3RvEghwcm90b2J1ZiIfCgd0ZXN0QWRkEgkKAWEYASABKAUS",
-            "CQoBYhgCIAEoBSJJCgxTdG9yZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRILCgNu",
-            "dW0YAiABKAUSDgoGcmVzdWx0GAMgASgFEg4KBm15TGlzdBgEIAMoCSIvCg10",
-            "ZXN0TG9naW5JbmZvEg4KBnJvbGVpZBgBIAEoBRIOCgZyb29taWQYAiABKAUi",
-            "HQoLQ2FsUmVzcG9uc2USDgoGc3RhdHVzGAEgASgFIjEKC0NTTG9naW5JbmZv",
-            "EhAKCFVzZXJOYW1lGAEgASgJEhAKCFBhc3N3b3JkGAIgASgJIjYKCkNTTG9n",
-            "aW5SZXESKAoJTG9naW5JbmZvGAEgASgLMhUucHJvdG9idWYuQ1NMb2dpbklu",
-            "Zm8iIQoKQ1NMb2dpblJlcxITCgtyZXN1bHRfY29kZRgBIAEoDWIGcHJvdG8z"));
+            "CQoBYhgCIAEoBSIdCg1jaGF0QnJvYWRjYXN0EgwKBHNhaWQYASABKAkiSQoM",
+            "U3RvcmVSZXF1ZXN0EgwKBG5hbWUYASABKAkSCwoDbnVtGAIgASgFEg4KBnJl",
+            "c3VsdBgDIAEoBRIOCgZteUxpc3QYBCADKAkiLwoNdGVzdExvZ2luSW5mbxIO",
+            "CgZyb2xlaWQYASABKAUSDgoGcm9vbWlkGAIgASgFIh0KC0NhbFJlc3BvbnNl",
+            "Eg4KBnN0YXR1cxgBIAEoBSIxCgtDU0xvZ2luSW5mbxIQCghVc2VyTmFtZRgB",
+            "IAEoCRIQCghQYXNzd29yZBgCIAEoCSI2CgpDU0xvZ2luUmVxEigKCUxvZ2lu",
+            "SW5mbxgBIAEoCzIVLnByb3RvYnVmLkNTTG9naW5JbmZvIiEKCkNTTG9naW5S",
+            "ZXMSEwoLcmVzdWx0X2NvZGUYASABKA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "Said" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.StoreRequest), global::Protobuf.StoreRequest.Parser, new[]{ "Name", "Num", "Result", "MyList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testLoginInfo), global::Protobuf.testLoginInfo.Parser, new[]{ "Roleid", "Roomid" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.CalResponse), global::Protobuf.CalResponse.Parser, new[]{ "Status" }, null, null, null),
@@ -205,6 +207,138 @@ namespace Protobuf {
 
   }
 
+  /// <summary>
+  ///¡ƒÃÏ–≠“È
+  /// </summary>
+  public sealed partial class chatBroadcast : pb::IMessage<chatBroadcast> {
+    private static readonly pb::MessageParser<chatBroadcast> _parser = new pb::MessageParser<chatBroadcast>(() => new chatBroadcast());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<chatBroadcast> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast(chatBroadcast other) : this() {
+      said_ = other.said_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast Clone() {
+      return new chatBroadcast(this);
+    }
+
+    /// <summary>Field number for the "said" field.</summary>
+    public const int SaidFieldNumber = 1;
+    private string said_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Said {
+      get { return said_; }
+      set {
+        said_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as chatBroadcast);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(chatBroadcast other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Said != other.Said) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Said.Length != 0) hash ^= Said.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Said.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Said);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Said.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Said);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(chatBroadcast other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Said.Length != 0) {
+        Said = other.Said;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Said = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class StoreRequest : pb::IMessage<StoreRequest> {
     private static readonly pb::MessageParser<StoreRequest> _parser = new pb::MessageParser<StoreRequest>(() => new StoreRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -213,7 +347,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -418,7 +552,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -575,7 +709,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -704,7 +838,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -870,7 +1004,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1008,7 +1142,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

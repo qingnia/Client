@@ -12,6 +12,11 @@ message testAdd
   int32 b = 2;
 }
 
+//ÁÄÌìĞ­Òé
+message chatBroadcast {
+    string said = 1;
+}
+
 message StoreRequest {
   string name = 1;
   int32 num = 2;
