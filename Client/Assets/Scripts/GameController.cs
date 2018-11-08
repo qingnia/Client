@@ -43,8 +43,6 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        Debug.Log("senddddddddddd");
-        singleNet.Instance.sendGameMsg();
         PlayerTryMove(p, dir);
     }
 
@@ -127,7 +125,16 @@ public class GameController : MonoBehaviour
     
     void ConnectServer()
     {
-        singleNet.Instance.connectGameServer(serverURL, port);
-        
+        singleNet.Instance.ConnectGameServer(serverURL, port);
+        Invoke("Login", 1);
+    }
+
+    void Login()
+    {
+        Debug.Log("try login");
+        int roleID = 123456;
+        int roomID = 321;
+
+        singleNet.Instance.Login(roleID, roomID);
     }
 }

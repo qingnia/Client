@@ -63,7 +63,7 @@ public class singleNet : SingleInstance<singleNet>
 
     private singleNet() { }
 
-    public void connectGameServer(string serverURL, int port)
+    public void ConnectGameServer(string serverURL, int port)
     {
         gameClient.Completed += new Action<System.Net.Sockets.TcpClient, EnSocketAction>((c, enAction) =>
         {
@@ -117,22 +117,38 @@ public class singleNet : SingleInstance<singleNet>
                 Debug.Log("服务器返回：" + ret.Status);
                 break;
             case "rpcMsg:login":
+                Debug.Log("登陆返回");
+                break;
+            case "rpcMsg:chat":
+                Debug.Log("聊天返回");
                 break;
             default:
                 break;
         }
     }
 
-    // Use this for initialization
-    public void sendGameMsg()
+    public void SendChatMsg(string msg)
     {
-        /*
-        CSLoginInfo mLoginInfo = new CSLoginInfo();
-        mLoginInfo.UserName = "linshuhe";
-        mLoginInfo.Password = "123456";
-        CSLoginReq mReq = new CSLoginReq();
-        mReq.LoginInfo = mLoginInfo;
-        */
+        chatBroadcast tc = new chatBroadcast();
+        tc.Said = msg;
+
+        byte[] data = CreateData(tc, "chat");
+        gameClient.SendAsync(data);
+    }
+
+    public void Login(int roleID, int roomID)
+    {
+        testLoginInfo tli = new testLoginInfo();
+        tli.Roleid = roleID;
+        tli.Roomid = roomID;
+        
+        byte[] data = CreateData(tli, "login");
+        gameClient.SendAsync(data);
+    }
+
+    // Use this for initialization
+    public void SendGameMsg()
+    {
         testLoginInfo tli = new testLoginInfo();
         tli.Roleid = 123456;
         tli.Roomid = 1232;
