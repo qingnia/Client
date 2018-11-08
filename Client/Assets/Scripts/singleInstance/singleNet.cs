@@ -97,7 +97,12 @@ public class singleNet : SingleInstance<singleNet>
             ProtoBufRpcHead hhh = Thrift.Transport.TMemoryBuffer.DeSerialize<ProtoBufRpcHead>(thriftBuff);
 
             //正文
-            int length = (int)msgHead._data_len - 36;
+            //抓包发现实际聊天返回的hh长度应该是29，原因待查
+            int length = (int)msgHead ._data_len - 36;
+            if (length < 0)
+            {
+                length = (int)msgHead._data_len;
+            }
             byte[] response = new byte[length];
             Array.ConstrainedCopy(msg, 48, response, 0, length);
             processMsg(hhh.Function_name, response);
@@ -120,7 +125,11 @@ public class singleNet : SingleInstance<singleNet>
                 Debug.Log("登陆返回");
                 break;
             case "rpcMsg:chat":
-                Debug.Log("聊天返回");
+                Debug.Log("聊天发送成功");
+                break;
+            case "rpcMsg:chatBroad":
+                chatBroadcast tcccc = chatBroadcast.Parser.ParseFrom(msg);
+                Debug.Log("聊天返回: " + tcccc.Said);
                 break;
             default:
                 break;
