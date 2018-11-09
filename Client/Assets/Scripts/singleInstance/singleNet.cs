@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using Thrift.Transport;
 using Thrift.Protocol;
 
+public delegate void ChatEventHandler(int roleID, string msg);
+
 public enum MSG_TYPE
 {
     KRPC_CALL = 1,
@@ -34,19 +36,19 @@ public class TcpMsgHead
         _data_len = 0;
     }
 
-    public TcpMsgHead(byte[] retHead)
+    public TcpMsgHead(byte[] retHead, int msgStart)
     {
         byte[] buff = new byte[4];
 
-        Array.ConstrainedCopy(retHead, 0, buff, 0, 4);
+        Array.ConstrainedCopy(retHead, msgStart, buff, 0, 4);
         Array.Reverse(buff);
         magic = BitConverter.ToUInt32(buff, 0);
 
-        Array.ConstrainedCopy(retHead, 4, buff, 0, 4);
+        Array.ConstrainedCopy(retHead, msgStart + 4, buff, 0, 4);
         Array.Reverse(buff);
         _version = BitConverter.ToUInt32(buff, 0);
         
-        Array.ConstrainedCopy(retHead, 8, buff, 0, 4);
+        Array.ConstrainedCopy(retHead, msgStart + 8, buff, 0, 4);
         Array.Reverse(buff);
         _data_len = BitConverter.ToUInt32(buff, 0);
     }
@@ -54,7 +56,6 @@ public class TcpMsgHead
 
 public class singleNet : SingleInstance<singleNet>
 {
-
     public static singleNet netInstance;
     private ClientAsync gameClient = new ClientAsync();
     private System.Runtime.Serialization.IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
@@ -62,6 +63,8 @@ public class singleNet : SingleInstance<singleNet>
     private static int lastSessionID;
 
     private singleNet() { }
+
+    public event ChatEventHandler chatEvent;
 
     public void ConnectGameServer(string serverURL, int port)
     {
@@ -86,28 +89,30 @@ public class singleNet : SingleInstance<singleNet>
         });
         gameClient.Received += new Action<string, byte[]>((key, msg) =>
         {
-            //头部消息
-            TcpMsgHead msgHead = new TcpMsgHead(msg);
-            //byte[] msgHead = new byte[16];
-            //Array.ConstrainedCopy(msg, 0, msgHead, 0, 12);
-
-            //thrift消息
-            byte[] thriftBuff = new byte[64];
-            Array.ConstrainedCopy(msg, 12, thriftBuff, 0, 36);
-            ProtoBufRpcHead hhh = Thrift.Transport.TMemoryBuffer.DeSerialize<ProtoBufRpcHead>(thriftBuff);
-
-            //正文
-            //抓包发现实际聊天返回的hh长度应该是29，原因待查
-            int length = (int)msgHead ._data_len - 36;
-            if (length < 0)
+            //循环处理，解决粘包问题
+            int msgStart = 0;
+            while (msg.Length > msgStart)
             {
-                length = (int)msgHead._data_len;
+                //头部消息
+                TcpMsgHead msgHead = new TcpMsgHead(msg, msgStart);
+                if (msgHead._data_len <= 0)
+                {
+                    break;
+                }
+
+                //thrift消息
+                byte[] thriftBuff = new byte[64];
+                Array.ConstrainedCopy(msg, msgStart + 12, thriftBuff, 0, (int)msgHead._data_len);
+                ProtoBufRpcHead hhh = Thrift.Transport.TMemoryBuffer.DeSerialize<ProtoBufRpcHead>(thriftBuff);
+
+                int thriftLength = Thrift.Transport.TMemoryBuffer.Serialize(hhh).Length;
+                int length = (int)msgHead._data_len - thriftLength;
+                byte[] response = new byte[length];
+                Array.ConstrainedCopy(msg, msgStart + 12 + thriftLength, response, 0, length);
+                processMsg(hhh.Function_name, response);
+
+                msgStart = msgStart + 12 + (int)msgHead._data_len;
             }
-            byte[] response = new byte[length];
-            Array.ConstrainedCopy(msg, 48, response, 0, length);
-            processMsg(hhh.Function_name, response);
-            //protoNet.Deserialize(getServerMsgType(hhh.Function_name), response);
-            //Debug.Log(key + "对我说：" + msg);
         });
         gameClient.ConnectAsync(serverURL, port);
     }
@@ -129,7 +134,10 @@ public class singleNet : SingleInstance<singleNet>
                 break;
             case "rpcMsg:chatBroad":
                 chatBroadcast tcccc = chatBroadcast.Parser.ParseFrom(msg);
+                //ChatControl.AddChatHis(tcccc.Said);
                 Debug.Log("聊天返回: " + tcccc.Said);
+
+                chatEvent(123456, tcccc.Said);
                 break;
             default:
                 break;
