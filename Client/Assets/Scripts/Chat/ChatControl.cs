@@ -47,7 +47,7 @@ public class ChatControl : MonoBehaviour {
     {
         chatMsgList = new List<ChatCache>();
         chatMsgPrefab = (GameObject)Resources.Load("Prefabs/ChatMsg");
-        singleNet.Instance.chatEvent += new ChatEventHandler(AddChatList);
+        singleNet.Instance.ChatEvent += new ChatEventHandler(AddChatList);
     }
 
     public void AddChatList(int roleID, string msg)

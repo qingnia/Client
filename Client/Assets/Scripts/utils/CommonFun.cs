@@ -22,24 +22,24 @@ public class CommonFun : MonoBehaviour {
         return ret;
     }
 
-    public static Vector3 NextPos(Vector3 vec, direction dir)
+    public static Vector3 NextPos(Vector3 vec, Direction dir)
     {
         Vector3 ret = vec;
         switch(dir)
         {
-            case direction.dirUp:
+            case Direction.dirUp:
                 vec.z += 10;
                 break;
-            case direction.dirDown:
+            case Direction.dirDown:
                 vec.z -= 10;
                 break;
-            case direction.dirLeft:
+            case Direction.dirLeft:
                 vec.x -= 10;
                 break;
-            case direction.dirRight:
+            case Direction.dirRight:
                 vec.x += 10;
                 break;
-            case direction.dirStop:
+            case Direction.dirStop:
                 break;
         }
         return vec;

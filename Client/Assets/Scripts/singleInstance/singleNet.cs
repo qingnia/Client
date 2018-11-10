@@ -13,6 +13,8 @@ using Thrift.Transport;
 using Thrift.Protocol;
 
 public delegate void ChatEventHandler(int roleID, string msg);
+public delegate void LoginEventHandler(int status);
+public delegate void PlayerJoinEventHandler(PublicInfo pinfo);
 
 public enum MSG_TYPE
 {
@@ -64,7 +66,9 @@ public class singleNet : SingleInstance<singleNet>
 
     private singleNet() { }
 
-    public event ChatEventHandler chatEvent;
+    public event ChatEventHandler ChatEvent;
+    public event LoginEventHandler LoginEvent;
+    public event PlayerJoinEventHandler PlayerJoinEvent;
 
     public void ConnectGameServer(string serverURL, int port)
     {
@@ -119,14 +123,17 @@ public class singleNet : SingleInstance<singleNet>
 
     private void processMsg(String function, byte[] msg)
     {
+        CalResponse ret;
         switch (function)
         {
             case "rpcMsg:add":
-                CalResponse ret = CalResponse.Parser.ParseFrom(msg);
+                ret = CalResponse.Parser.ParseFrom(msg);
                 //CalResponse ret = (CalResponse)protoNet.Deserialize(CalResponse.Parser, msg);
                 Debug.Log("服务器返回：" + ret.Status);
                 break;
             case "rpcMsg:login":
+                ret = CalResponse.Parser.ParseFrom(msg);
+                LoginEvent(ret.Status);
                 Debug.Log("登陆返回");
                 break;
             case "rpcMsg:chat":
@@ -137,7 +144,7 @@ public class singleNet : SingleInstance<singleNet>
                 //ChatControl.AddChatHis(tcccc.Said);
                 Debug.Log("聊天返回: " + tcccc.Said);
 
-                chatEvent(123456, tcccc.Said);
+                ChatEvent(123456, tcccc.Said);
                 break;
             default:
                 break;
@@ -228,7 +235,7 @@ public class singleNet : SingleInstance<singleNet>
     }
 
     //将一个结构序列化为字节数组
-    private byte[] serializeInfoObjToByteArray(ValueType infoStruct)
+    private byte[] SerializeInfoObjToByteArray(ValueType infoStruct)
     {
         if (infoStruct == null)
         {

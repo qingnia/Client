@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum direction
+public enum Direction
 {
     dirUp, dirRight, dirDown, dirLeft, dirStop,
+}
+
+public enum RetStatus
+{
+    rsSuccess, rsFail,
 }

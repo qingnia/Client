@@ -13,32 +13,33 @@ public class GameController : MonoBehaviour
     //Room[][] roomMaps = new Room[100][];
 
     private GameObject playerPrefab;
+    private GameObject playerPanelPrefab;
     private GameObject roomPrefab;
 
     private int currentPlayerID;
     private int roomCount = 1;
 
-    public string serverURL;
-    public int port;
 
     // Use this for initialization
     void Start()
     {
-        currentPlayerID = 0;
+        currentPlayerID = -1;
         roomMap = new Dictionary<int, Dictionary<int, Room>>(100);
         playerPrefab = (GameObject)Resources.Load("Prefabs/Player");
+        playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
-        InitPlayerList();
-        InitRoomMap();
-        ConnectServer();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (currentPlayerID < 0)
+        {
+            return;
+        }
         Player p = playerList[currentPlayerID];
-        direction dir = p.GetInputDir();
-        if (dir == direction.dirStop)
+        Direction dir = p.GetInputDir();
+        if (dir == Direction.dirStop)
         {
             return;
         }
@@ -46,7 +47,14 @@ public class GameController : MonoBehaviour
         PlayerTryMove(p, dir);
     }
 
-    void PlayerTryMove(Player p, direction dir)
+    public void InitGame()
+    {
+        currentPlayerID = 0;
+        InitPlayerList();
+        InitRoomMap();
+    }
+
+    void PlayerTryMove(Player p, Direction dir)
     {
         Vector3 nextPos = CommonFun.NextPos(p.transform.position, dir);
         //Vector3 vec = CommonFun.Vector2MapIndex(nextPos);
@@ -87,11 +95,15 @@ public class GameController : MonoBehaviour
 
     private Player AddNewPlayer(int n)
     {
+        GameObject pp = Instantiate(playerPanelPrefab);
         GameObject go = Instantiate(playerPrefab);
+        PlayerPanel playerPanel = pp.GetComponent<PlayerPanel>();
+        playerPanel.setPlayer(go);
+        playerPanel.InitPlayer(n);
+
         go.transform.parent = transform;
         go.name = "动态" + playerList.Count;
         Player p = go.GetComponent<Player>();
-        p.InitPlayer(n);
         return p;
     }
 
@@ -123,18 +135,4 @@ public class GameController : MonoBehaviour
         return room;
     }
     
-    void ConnectServer()
-    {
-        singleNet.Instance.ConnectGameServer(serverURL, port);
-        Invoke("Login", 1);
-    }
-
-    void Login()
-    {
-        Debug.Log("try login");
-        int roleID = 123456;
-        int roomID = 321;
-
-        singleNet.Instance.Login(roleID, roomID);
-    }
 }

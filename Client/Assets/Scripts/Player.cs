@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
-
-    private string playerName;
-    private int playerID;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -17,18 +16,9 @@ public class Player : MonoBehaviour {
 		
 	}
 
-    public void InitPlayer(int id)
+    public Direction GetInputDir()
     {
-        playerID = id;
-        Vector3 randomVec = transform.position;
-        randomVec.x += id * 2;
-        transform.position = randomVec;
-        playerName = "123";
-    }
-
-    public direction GetInputDir()
-    {
-        direction dir = direction.dirStop;
+        Direction dir = Direction.dirStop;
         if (!Input.anyKey)
         {
             return dir;
@@ -37,16 +27,16 @@ public class Player : MonoBehaviour {
         switch (input)
         {
             case "w":
-                dir = direction.dirUp;
+                dir = Direction.dirUp;
                 break;
             case "s":
-                dir = direction.dirDown;
+                dir = Direction.dirDown;
                 break;
             case "a":
-                dir = direction.dirLeft;
+                dir = Direction.dirLeft;
                 break;
             case "d":
-                dir = direction.dirRight;
+                dir = Direction.dirRight;
                 break;
             default:
                 break;
