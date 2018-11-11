@@ -13,7 +13,7 @@ using Thrift.Transport;
 using Thrift.Protocol;
 
 public delegate void ChatEventHandler(int roleID, string msg);
-public delegate void LoginEventHandler(int status);
+public delegate void LoginEventHandler(playersInfo pinfos);
 public delegate void PlayerJoinEventHandler(PublicInfo pinfo);
 
 public enum MSG_TYPE
@@ -132,8 +132,8 @@ public class singleNet : SingleInstance<singleNet>
                 Debug.Log("服务器返回：" + ret.Status);
                 break;
             case "rpcMsg:login":
-                ret = CalResponse.Parser.ParseFrom(msg);
-                LoginEvent(ret.Status);
+                playersInfo pinfos = playersInfo.Parser.ParseFrom(msg);
+                LoginEvent(pinfos);
                 Debug.Log("登陆返回");
                 break;
             case "rpcMsg:chat":

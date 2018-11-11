@@ -6,6 +6,26 @@ package protobuf;//包名
 //1,2,3不代表参数默认值，而是参数标签
 //repeated 可以理解为数组
 
+/****复杂数据结构start*********/
+message baseInfo
+{
+    int32 roleID = 1;
+    string name = 2;
+    int32 status = 3;
+}
+/****复杂数据结构end************/
+
+message testLoginInfo
+{
+  int32 roleid = 1;
+  int32 roomid = 2;
+}
+message playersInfo
+{
+    CalResponse cr = 1;
+    repeated baseInfo baseInfos = 2;
+}
+
 message testAdd
 {
   int32 a = 1;
@@ -22,12 +42,6 @@ message StoreRequest {
   int32 num = 2;
   int32 result = 3;
   repeated string myList=4;
-}
-
-message testLoginInfo
-{
-  int32 roleid = 1;
-  int32 roomid = 2;
 }
 
 message CalResponse

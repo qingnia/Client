@@ -7,6 +7,7 @@ public class Login : MonoBehaviour {
 
     public string serverURL;
     public int port;
+    public bool loginActive;
 
     public Text accountText;
     public Text passwordText;
@@ -15,14 +16,29 @@ public class Login : MonoBehaviour {
     public GameObject chatScoll;
     public GameObject waitRoom;
 
+    private Protobuf.playersInfo pinfos;
+
 	// Use this for initialization
 	void Start () {
         singleNet.Instance.LoginEvent += new LoginEventHandler(OnLoginRet);
+        this.loginActive = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (this.gameObject.activeSelf != loginActive)
+        {
+            Debug.Log("login success, then get ready!");
+            this.gameObject.SetActive(loginActive);
+
+            if (!loginActive)
+            {
+                //激活房间界面
+                chatScoll.SetActive(true);
+                waitRoom.SetActive(true);
+                waitRoom.GetComponent<WaitRoom>().WaitRoomOnLogin(this.pinfos);
+            }
+        }
 	}
 
     public void ConnectServer()
@@ -41,16 +57,13 @@ public class Login : MonoBehaviour {
         singleNet.Instance.Login(roleID, roomID);
     }
 
-    public void OnLoginRet(int status)
+    public void OnLoginRet(Protobuf.playersInfo pinfos)
     {
-        if (RetStatus.rsSuccess.Equals(status))
+        if ((int)RetStatus.rsSuccess == pinfos.Cr.Status)
         {
-            Debug.Log("login success, then get ready!");
-            this.gameObject.SetActive(false);
-
-            //激活房间界面
-            chatScoll.SetActive(true);
-            waitRoom.SetActive(true);
+            loginActive = false;
+            this.pinfos = pinfos;
+            return;
         }
         Debug.Log("login fail, retry");
     }
