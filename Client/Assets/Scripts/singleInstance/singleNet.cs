@@ -56,15 +56,15 @@ public class TcpMsgHead
     }
 }
 
-public class singleNet : SingleInstance<singleNet>
+public class SingleNet : SingleInstance<SingleNet>
 {
-    public static singleNet netInstance;
+    public static SingleNet netInstance;
     private ClientAsync gameClient = new ClientAsync();
     private System.Runtime.Serialization.IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
     private static int lastSessionID;
 
-    private singleNet() { }
+    private SingleNet() { }
 
     public event ChatEventHandler ChatEvent;
     public event LoginEventHandler LoginEvent;
@@ -113,7 +113,7 @@ public class singleNet : SingleInstance<singleNet>
                 int length = (int)msgHead._data_len - thriftLength;
                 byte[] response = new byte[length];
                 Array.ConstrainedCopy(msg, msgStart + 12 + thriftLength, response, 0, length);
-                processMsg(hhh.Function_name, response);
+                ProcessMsg(hhh.Function_name, response);
 
                 msgStart = msgStart + 12 + (int)msgHead._data_len;
             }
@@ -121,13 +121,13 @@ public class singleNet : SingleInstance<singleNet>
         gameClient.ConnectAsync(serverURL, port);
     }
 
-    private void processMsg(String function, byte[] msg)
+    private void ProcessMsg(String function, byte[] msg)
     {
-        CalResponse ret;
+        commonResponse ret;
         switch (function)
         {
             case "rpcMsg:add":
-                ret = CalResponse.Parser.ParseFrom(msg);
+                ret = commonResponse.Parser.ParseFrom(msg);
                 //CalResponse ret = (CalResponse)protoNet.Deserialize(CalResponse.Parser, msg);
                 Debug.Log("服务器返回：" + ret.Status);
                 break;
@@ -138,6 +138,9 @@ public class singleNet : SingleInstance<singleNet>
                 break;
             case "rpcMsg:chat":
                 Debug.Log("聊天发送成功");
+                break;
+            case "rpcMsg:statusBroad":
+                Debug.Log("有玩家更新状态");
                 break;
             case "rpcMsg:chatBroad":
                 chatBroadcast tcccc = chatBroadcast.Parser.ParseFrom(msg);
@@ -153,8 +156,10 @@ public class singleNet : SingleInstance<singleNet>
 
     public void SendChatMsg(string msg)
     {
-        chatBroadcast tc = new chatBroadcast();
-        tc.Said = msg;
+        chatBroadcast tc = new chatBroadcast
+        {
+            Said = msg
+        };
 
         byte[] data = CreateData(tc, "chat");
         gameClient.SendAsync(data);
@@ -162,20 +167,30 @@ public class singleNet : SingleInstance<singleNet>
 
     public void Login(int roleID, int roomID)
     {
-        testLoginInfo tli = new testLoginInfo();
-        tli.Roleid = roleID;
-        tli.Roomid = roomID;
-        
+        testLoginInfo tli = new testLoginInfo
+        {
+            Roleid = roleID,
+            Roomid = roomID
+        };
+
         byte[] data = CreateData(tli, "login");
+        gameClient.SendAsync(data);
+    }
+
+    public void SendMsgCommon(IMessage im, string function)
+    {
+        byte[] data = CreateData(im, function);
         gameClient.SendAsync(data);
     }
 
     // Use this for initialization
     public void SendGameMsg()
     {
-        testLoginInfo tli = new testLoginInfo();
-        tli.Roleid = 123456;
-        tli.Roomid = 1232;
+        testLoginInfo tli = new testLoginInfo
+        {
+            Roleid = 123456,
+            Roomid = 1232
+        };
 
         testAdd ta = new testAdd();
         System.Random ran = new System.Random();

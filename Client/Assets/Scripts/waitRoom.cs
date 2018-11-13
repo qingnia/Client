@@ -13,9 +13,13 @@ public struct PublicInfo
 public class WaitRoom : MonoBehaviour {
 
     public LayoutGroup waitPlayerLayout;
-    private static GameObject waitPlayerPrefab;
+    public Button readyButton;
+    public Button startButton;
     public List<PublicInfo> waitCacheList;
-    public List<GameObject> waitPlayerList = new List<GameObject>();
+    private static GameObject waitPlayerPrefab;
+    private Dictionary<int, GameObject> waitPlayers = new Dictionary<int, GameObject>();
+
+    private int roomHolder;
 
     // Use this for initialization
     void Start () {
@@ -39,17 +43,22 @@ public class WaitRoom : MonoBehaviour {
         }
         foreach (var item in waitCacheList)
         {
-            Debug.Log("show new player. roleID:" + item.roleID);
+            int thisRoleID = item.roleID;
+            if (thisRoleID == PlayerData.Instance.RoleID)
+            {
+                PlayerData.Instance.Init(item);
+            }
+            Debug.Log("show new player. roleID:" + thisRoleID);
             GameObject go = Instantiate(waitPlayerPrefab);
             go.GetComponent<WaitPlayer>().nameText.text = item.name;
-            go.GetComponent<WaitPlayer>().roleIDText.text = item.roleID.ToString();
+            go.GetComponent<WaitPlayer>().roleIDText.text = thisRoleID.ToString();
             go.GetComponent<WaitPlayer>().status.text = item.status.ToString();
 
             go.transform.SetParent(waitPlayerLayout.transform);
-            go.name = "动态" + waitPlayerList.Count;
-            waitPlayerList.Add(go);
-            waitCacheList.Remove(item);
+            go.name = "动态" + waitPlayers.Count;
+            waitPlayers[thisRoleID] = go;
         }
+        waitCacheList.Clear();
     }
 
     private void Awake()
@@ -57,12 +66,13 @@ public class WaitRoom : MonoBehaviour {
         Debug.Log("room awake");
         waitCacheList = new List<PublicInfo>();
         waitPlayerPrefab = (GameObject)Resources.Load("Prefabs/waitPlayer");
-        singleNet.Instance.PlayerJoinEvent += new PlayerJoinEventHandler(AddNewWaitPlayer);
+        SingleNet.Instance.PlayerJoinEvent += new PlayerJoinEventHandler(AddNewWaitPlayer);
+
     }
 
     public void WaitRoomOnLogin(Protobuf.playersInfo pinfos)
     {
-        Debug.Log("login success, player count:" + pinfos.BaseInfos);
+        Debug.Log("login success, player count:" + pinfos);
         foreach(var p in pinfos.BaseInfos)
         {
             PublicInfo pi;
@@ -71,11 +81,47 @@ public class WaitRoom : MonoBehaviour {
             pi.status = p.Status;
             this.waitCacheList.Add(pi);
         }
+        //同时返回的还有房主ID
+        this.roomHolder = pinfos.RoomHolder;
+        ModifyStatusText();
     }
 
     void AddNewWaitPlayer(PublicInfo pinfo)
     {
         PublicInfo pi = new PublicInfo();
         this.waitCacheList.Add(pi);
+    }
+
+    void ModifyStatusText()
+    {
+        if (PlayerData.Instance.RoleID == this.roomHolder)
+        {
+            startButton.gameObject.SetActive(true);
+            readyButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            startButton.gameObject.SetActive(false);
+            readyButton.gameObject.SetActive(true);
+        }
+    }
+
+    public void ClickReady()
+    {
+        StatusRequest(PlayerStatus.psReady);
+    }
+
+    public void ClickStart()
+    {
+        StatusRequest(PlayerStatus.psStart);
+    }
+
+    void StatusRequest(PlayerStatus ps)
+    {
+        Protobuf.statusRequest request = new Protobuf.statusRequest
+        {
+            Cmd = (int)ps
+        };
+        SingleNet.Instance.SendMsgCommon(request, "modifyStatus");
     }
 }

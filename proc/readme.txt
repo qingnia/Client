@@ -17,4 +17,4 @@ Please refer to our official github site for more installation instructions:
 
 设置系统变量：path添加如  F:\test\proc\bin
 
-执行命令protoc  -I=f:\test\proc\proto\   --csharp_out=f:\test\proc\cs   f:\test\proc\proto\test.proto
+执行命令protoc  -I=f:\test\proc\   --csharp_out=f:\test\proc   f:\test\proc\test.proto

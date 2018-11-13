@@ -11,3 +11,8 @@ public enum RetStatus
 {
     rsSuccess, rsFail,
 }
+
+public enum PlayerStatus
+{
+    psEnter, psReady, psStart,
+}

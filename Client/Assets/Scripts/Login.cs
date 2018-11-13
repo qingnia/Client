@@ -20,7 +20,7 @@ public class Login : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        singleNet.Instance.LoginEvent += new LoginEventHandler(OnLoginRet);
+        SingleNet.Instance.LoginEvent += new LoginEventHandler(OnLoginRet);
         this.loginActive = true;
 	}
 	
@@ -44,7 +44,7 @@ public class Login : MonoBehaviour {
     public void ConnectServer()
     {
         Debug.Log("try login");
-        singleNet.Instance.ConnectGameServer(serverURL, port);
+        SingleNet.Instance.ConnectGameServer(serverURL, port);
         Invoke("TryLogin", 1);
     }
 
@@ -54,7 +54,7 @@ public class Login : MonoBehaviour {
         int roomID = int.Parse(roomText.text);
         string password = passwordText.text;
 
-        singleNet.Instance.Login(roleID, roomID);
+        SingleNet.Instance.Login(roleID, roomID);
     }
 
     public void OnLoginRet(Protobuf.playersInfo pinfos)
@@ -63,6 +63,8 @@ public class Login : MonoBehaviour {
         {
             loginActive = false;
             this.pinfos = pinfos;
+
+            PlayerData.Instance.RoleID = int.Parse(accountText.text);
             return;
         }
         Debug.Log("login fail, retry");

@@ -47,7 +47,7 @@ public class ChatControl : MonoBehaviour {
     {
         chatMsgList = new List<ChatCache>();
         chatMsgPrefab = (GameObject)Resources.Load("Prefabs/ChatMsg");
-        singleNet.Instance.ChatEvent += new ChatEventHandler(AddChatList);
+        SingleNet.Instance.ChatEvent += new ChatEventHandler(AddChatList);
     }
 
     public void AddChatList(int roleID, string msg)
@@ -70,13 +70,13 @@ public class ChatControl : MonoBehaviour {
             go.transform.parent = chatContent.transform;
             go.name = "动态" + chatList.Count;
             chatList.Add(go);
-            chatMsgList.Remove(item);
         }
+        chatMsgList.Clear();
     }
 
     public void SendChatMsg(string msg)
     {
         Debug.Log("发聊天消息");
-        singleNet.Instance.SendChatMsg(msg);
+        SingleNet.Instance.SendChatMsg(msg);
     }
 }
