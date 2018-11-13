@@ -14,5 +14,5 @@ public enum RetStatus
 
 public enum PlayerStatus
 {
-    psEnter, psReady, psStart,
+    psEnter, psReady, psStart, psIngame, psDead,
 }

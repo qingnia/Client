@@ -15,6 +15,7 @@ using Thrift.Protocol;
 public delegate void ChatEventHandler(int roleID, string msg);
 public delegate void LoginEventHandler(playersInfo pinfos);
 public delegate void PlayerJoinEventHandler(PublicInfo pinfo);
+public delegate void PlayerStatusModifyEventHandler(statusBroadcast sb);
 
 public enum MSG_TYPE
 {
@@ -69,6 +70,7 @@ public class SingleNet : SingleInstance<SingleNet>
     public event ChatEventHandler ChatEvent;
     public event LoginEventHandler LoginEvent;
     public event PlayerJoinEventHandler PlayerJoinEvent;
+    public event PlayerStatusModifyEventHandler PlayerStatusModify;
 
     public void ConnectGameServer(string serverURL, int port)
     {
@@ -140,6 +142,8 @@ public class SingleNet : SingleInstance<SingleNet>
                 Debug.Log("聊天发送成功");
                 break;
             case "rpcMsg:statusBroad":
+                statusBroadcast sb = statusBroadcast.Parser.ParseFrom(msg);
+                PlayerStatusModify(sb);
                 Debug.Log("有玩家更新状态");
                 break;
             case "rpcMsg:chatBroad":

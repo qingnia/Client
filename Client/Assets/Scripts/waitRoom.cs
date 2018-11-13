@@ -15,11 +15,15 @@ public class WaitRoom : MonoBehaviour {
     public LayoutGroup waitPlayerLayout;
     public Button readyButton;
     public Button startButton;
+    public GameObject gameScene;
+    public GameObject gameUI;
+
     public List<PublicInfo> waitCacheList;
     private static GameObject waitPlayerPrefab;
     private Dictionary<int, GameObject> waitPlayers = new Dictionary<int, GameObject>();
 
     private int roomHolder;
+    bool gameStart = false;
 
     // Use this for initialization
     void Start () {
@@ -29,6 +33,17 @@ public class WaitRoom : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         UpdateChatHis();
+    }
+
+    void TryStartGame()
+    {
+        if (gameStart)
+        {
+            Debug.Log("game start");
+            this.gameObject.SetActive(false);
+            gameScene.SetActive(true);
+            gameUI.SetActive(true);
+        }
     }
 
     private void UpdateChatHis()
@@ -44,7 +59,11 @@ public class WaitRoom : MonoBehaviour {
         foreach (var item in waitCacheList)
         {
             int thisRoleID = item.roleID;
-            if (thisRoleID == PlayerData.Instance.RoleID)
+            if (waitPlayers.ContainsKey(thisRoleID))
+            {
+                waitPlayers[thisRoleID].GetComponent<WaitPlayer>().status.text = item.status.ToString();
+            }
+            else if (thisRoleID == PlayerData.Instance.RoleID)
             {
                 PlayerData.Instance.Init(item);
             }
@@ -67,7 +86,7 @@ public class WaitRoom : MonoBehaviour {
         waitCacheList = new List<PublicInfo>();
         waitPlayerPrefab = (GameObject)Resources.Load("Prefabs/waitPlayer");
         SingleNet.Instance.PlayerJoinEvent += new PlayerJoinEventHandler(AddNewWaitPlayer);
-
+        SingleNet.Instance.PlayerStatusModify += new PlayerStatusModifyEventHandler(OnPlayerStatusModify);
     }
 
     public void WaitRoomOnLogin(Protobuf.playersInfo pinfos)
@@ -88,7 +107,12 @@ public class WaitRoom : MonoBehaviour {
 
     void AddNewWaitPlayer(PublicInfo pinfo)
     {
-        PublicInfo pi = new PublicInfo();
+        PublicInfo pi = new PublicInfo
+        {
+            roleID = pinfo.roleID,
+            name = pinfo.name,
+            status = pinfo.status,
+        };
         this.waitCacheList.Add(pi);
     }
 
@@ -124,4 +148,21 @@ public class WaitRoom : MonoBehaviour {
         };
         SingleNet.Instance.SendMsgCommon(request, "modifyStatus");
     }
+
+    public void OnPlayerStatusModify(Protobuf.statusBroadcast sb)
+    {
+        if (sb.Cmd == (int)PlayerStatus.psStart)
+        {
+            //j将所有人都设为ingame
+            gameStart = true;
+            return;
+        }
+
+        PublicInfo pi = new PublicInfo
+        {
+            roleID = sb.Roleid,
+            status = sb.Cmd,
+        };
+    }
+
 }

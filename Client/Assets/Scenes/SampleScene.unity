@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1996,6 +1996,8 @@ MonoBehaviour:
   waitPlayerLayout: {fileID: 463263825}
   readyButton: {fileID: 1152233989}
   startButton: {fileID: 1252387955}
+  gameScene: {fileID: 1715664863}
+  gameUI: {fileID: 1386767633}
 --- !u!1 &942595520
 GameObject:
   m_ObjectHideFlags: 0
@@ -3966,6 +3968,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1678603686}
   m_CullTransparentMesh: 0
+--- !u!1 &1715664863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1375725408636104, guid: 0159683a6c8e0e545981fde64f27db72,
+    type: 2}
+  m_PrefabInternal: {fileID: 1907646683}
 --- !u!1 &1743361907
 GameObject:
   m_ObjectHideFlags: 0
