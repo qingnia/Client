@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject playerStatusUI;
 
     [HideInInspector]
     public List<Player> playerList = new List<Player>();
@@ -28,6 +29,8 @@ public class GameController : MonoBehaviour
         playerPrefab = (GameObject)Resources.Load("Prefabs/Player");
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
+
+        InitGame();
     }
 
     // Update is called once per frame
@@ -95,15 +98,19 @@ public class GameController : MonoBehaviour
 
     private Player AddNewPlayer(int n)
     {
-        GameObject pp = Instantiate(playerPanelPrefab);
+        //地图内玩家
         GameObject go = Instantiate(playerPrefab);
-        PlayerPanel playerPanel = pp.GetComponent<PlayerPanel>();
-        playerPanel.setPlayer(go);
-        playerPanel.InitPlayer(n);
-
-        go.transform.parent = transform;
+        go.transform.parent = this.transform;
         go.name = "动态" + playerList.Count;
         Player p = go.GetComponent<Player>();
+        p.InitPlayer(n);
+
+        //状态UI玩家
+        GameObject pp = Instantiate(playerPanelPrefab);
+        PlayerPanel playerPanel = pp.GetComponent<PlayerPanel>();
+        //playerPanel.SetPlayer(go);
+        //playerPanel.InitPlayer(n);
+        pp.transform.SetParent(playerStatusUI.transform, false);
         return p;
     }
 

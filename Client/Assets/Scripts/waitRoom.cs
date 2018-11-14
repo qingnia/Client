@@ -32,7 +32,8 @@ public class WaitRoom : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        UpdateChatHis();
+        UpdatePlayerList();
+        TryStartGame();
     }
 
     void TryStartGame()
@@ -46,7 +47,7 @@ public class WaitRoom : MonoBehaviour {
         }
     }
 
-    private void UpdateChatHis()
+    private void UpdatePlayerList()
     {
         if (!gameObject.activeSelf)
         {
@@ -84,7 +85,7 @@ public class WaitRoom : MonoBehaviour {
     {
         Debug.Log("room awake");
         waitCacheList = new List<PublicInfo>();
-        waitPlayerPrefab = (GameObject)Resources.Load("Prefabs/waitPlayer");
+        waitPlayerPrefab = (GameObject)Resources.Load("Prefabs/WaitPlayer");
         SingleNet.Instance.PlayerJoinEvent += new PlayerJoinEventHandler(AddNewWaitPlayer);
         SingleNet.Instance.PlayerStatusModify += new PlayerStatusModifyEventHandler(OnPlayerStatusModify);
     }

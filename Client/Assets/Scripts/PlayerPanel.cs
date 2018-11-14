@@ -18,16 +18,7 @@ public class PlayerPanel : MonoBehaviour {
 
     }
 
-    public void InitPlayer(int id)
-    {
-        playerID = id;
-        Vector3 randomVec = transform.position;
-        randomVec.x += id * 2;
-        transform.position = randomVec;
-        playerName = "123";
-    }
-
-    public void setPlayer(Object obj)
+    public void SetPlayer(Object obj)
     {
         this.player = obj;
     }
