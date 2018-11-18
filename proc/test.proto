@@ -42,6 +42,20 @@ message statusBroadcast
 }
 /**********************/
 
+/*******Íæ¼ÒÒÆ¶¯*********/
+message moveRequest
+{
+    int32 direction = 1;
+}
+message moveBroadcast
+{
+    int32 roleID = 1;
+    int32 direction = 2;
+    int32 roomID = 3;
+    int32 cardID = 4;
+}
+/***********************/
+
 message testAdd
 {
   int32 a = 1;

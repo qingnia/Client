@@ -3,12 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class fightCache
+{
+    public int RoleID { get; set; }
+    public Direction dir { get; set; }
+    public int RoomID { get; set; }
+    public int CardID { get; set; }
+}
+
 public class GameController : MonoBehaviour
 {
     public GameObject playerStatusUI;
 
     [HideInInspector]
-    public List<Player> playerList = new List<Player>();
+    public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
+    public Dictionary<int, WaitPlayer> waitPlayers = new Dictionary<int, WaitPlayer>();
+    public List<Protobuf.moveBroadcast> moveCache = new List<Protobuf.moveBroadcast>();
     private Dictionary<int, Dictionary<int, Room>> roomMap;
 
     //Room[][] roomMaps = new Room[100][];
@@ -19,6 +29,7 @@ public class GameController : MonoBehaviour
 
     private int currentPlayerID;
     private int roomCount = 1;
+    public int actionRoleID;
 
 
     // Use this for initialization
@@ -29,13 +40,29 @@ public class GameController : MonoBehaviour
         playerPrefab = (GameObject)Resources.Load("Prefabs/Player");
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
+        SingleNet.Instance.PlayerMove += OnPlayerMove;
 
         InitGame();
     }
 
     // Update is called once per frame
+    //玩家移动控制player,玩家状态改变控制playerpanel
     void Update()
     {
+        //先执行移动
+        PlayerTryMove();
+        //只有在自己行动回合，才监听输入，否则只接收网络消息
+        if (PlayerData.Instance.RoleID == actionRoleID)
+        {
+            Direction dir = GetInputDir();
+            if (dir != Direction.dirNone)
+            {
+                Protobuf.moveRequest mr = new Protobuf.moveRequest();
+                mr.Direction = (int)dir;
+                SingleNet.Instance.SendMsgCommon(mr, "move");
+            }
+        }
+        /*
         if (currentPlayerID < 0)
         {
             return;
@@ -48,70 +75,151 @@ public class GameController : MonoBehaviour
         }
 
         PlayerTryMove(p, dir);
+        */
+    }
+
+    public void OnPlayerMove(Protobuf.moveBroadcast mb)
+    {
+        this.moveCache.Add(mb);
+    }
+
+    public Direction GetInputDir()
+    {
+        Direction dir = Direction.dirNone;
+        if (!Input.anyKey)
+        {
+            return dir;
+        }
+        string input = Input.inputString;
+        switch (input)
+        {
+            case "w":
+                dir = Direction.dirUp;
+                break;
+            case "s":
+                dir = Direction.dirDown;
+                break;
+            case "a":
+                dir = Direction.dirLeft;
+                break;
+            case "d":
+                dir = Direction.dirRight;
+                break;
+            case "o":
+                dir = Direction.dirStop;
+                break;
+            default:
+                break;
+        }
+        return dir;
     }
 
     public void InitGame()
     {
         currentPlayerID = 0;
-        InitPlayerList();
         InitRoomMap();
+        InitPlayerList();
     }
 
-    void PlayerTryMove(Player p, Direction dir)
+    void PlayerTryMove()
     {
-        Vector3 nextPos = CommonFun.NextPos(p.transform.position, dir);
-        //Vector3 vec = CommonFun.Vector2MapIndex(nextPos);
-        Vector3 mapIndex = CommonFun.Vector2MapIndex(nextPos);
-        int x = (int)mapIndex.x;
-        int y = (int)mapIndex.z;
-        if (! roomMap.ContainsKey(x) || !roomMap[x].ContainsKey(y))
+        if (this.moveCache.Count <=0 )
         {
-            Room r = AddNewRoom(roomCount, nextPos);
-            if (!roomMap.ContainsKey(x))
+            return;
+        }
+        foreach (var item in moveCache)
+        {
+            int roleID = item.RoleID;
+            if (!playerList.ContainsKey(roleID))
             {
-                roomMap[x] = new Dictionary<int, Room>();
+                Debug.Log("玩家移动了，但是找不到这个人 role:" + roleID);
+                return;
             }
-            roomMap[x][y] = r;
+            Player p = playerList[roleID];
+            Direction dir = (Direction)item.Direction;
+
+            Debug.Log("处理玩家移动 role:" + roleID);
+
+            Vector3 nextPos = CommonFun.NextPos(p.transform.position, dir);
+            //Vector3 vec = CommonFun.Vector2MapIndex(nextPos);
+            Vector3 mapIndex = CommonFun.Vector2MapIndex(nextPos);
+            int x = (int)mapIndex.x;
+            int y = (int)mapIndex.z;
+            if (!roomMap.ContainsKey(x) || !roomMap[x].ContainsKey(y))
+            {
+                Room r = AddNewRoom(item.RoomID, nextPos);
+                if (!roomMap.ContainsKey(x))
+                {
+                    roomMap[x] = new Dictionary<int, Room>();
+                }
+                roomMap[x][y] = r;
+            }
+            p.transform.position = nextPos;
+            currentPlayerID++;
+            if (currentPlayerID >= playerList.Count)
+            {
+                currentPlayerID = 0;
+            }
+
+            //如果有卡片，还要执行卡片的操作
+            if (item.CardID > 0)
+            {
+                Debug.Log("玩家获得了新卡片：" + item.CardID);
+            }
         }
-        p.transform.position = nextPos;
-        currentPlayerID++;
-        if (currentPlayerID >= playerList.Count)
+        moveCache.Clear();
+    }
+
+    private void InitPlayerList()
+    {
+        foreach (var item in waitPlayers)
         {
-            currentPlayerID = 0;
+            this.AddNewPlayer(item.Key, item.Value);
         }
     }
 
-    public void InitPlayerList()
+    private void AddNewPlayer(int roleID, WaitPlayer wp)
     {
-
-        for (int i = 0; i < 3; i++)
-        {
-            Player p = AddNewPlayer(i);
-            playerList.Add(p);
-            /*
-            GameObject go = Instantiate(playerPrefab);
-            go.transform.parent = transform;
-            GameObject p = GetComponentInChildren<GameObject>();
-            p.name = "111";*/
-        }
-    }
-
-    private Player AddNewPlayer(int n)
-    {
+        int characterID = playerList.Count + 1;
         //地图内玩家
         GameObject go = Instantiate(playerPrefab);
         go.transform.parent = this.transform;
         go.name = "动态" + playerList.Count;
         Player p = go.GetComponent<Player>();
-        p.InitPlayer(n);
+        p.InitPlayer(characterID);
 
         //状态UI玩家
         GameObject pp = Instantiate(playerPanelPrefab);
         PlayerPanel playerPanel = pp.GetComponent<PlayerPanel>();
         //playerPanel.SetPlayer(go);
         //playerPanel.InitPlayer(n);
+        pp.GetComponent<PlayerPanel>().InitPlayerPanel(go, roleID, characterID);
+
+        Vector3 newPos = pp.transform.position;
+        switch(characterID)
+        {
+            
+            case 1:
+                newPos.y -= 160;
+                break;
+            case 2:
+                newPos.x -= 330;
+                break;
+            case 3:
+                newPos.x += 330;
+                break;
+            case 4:
+                break;
+            case 5:
+                newPos.y += 160;
+                break;
+            default:
+                break;
+        }
+        pp.transform.position = newPos;
         pp.transform.SetParent(playerStatusUI.transform, false);
-        return p;
+
+        playerList[roleID] = p;
     }
 
     void InitRoomMap()

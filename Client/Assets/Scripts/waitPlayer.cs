@@ -9,9 +9,9 @@ public class WaitPlayer : MonoBehaviour {
     public Text nameText;
     public Text roleIDText;
     public Text status;
+    public Text characterID;
 
     private string playerName;
-    private int playerID;
 
     // Use this for initialization
     void Start () {

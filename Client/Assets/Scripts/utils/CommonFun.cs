@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CommonFun : MonoBehaviour {
 
@@ -44,4 +45,16 @@ public class CommonFun : MonoBehaviour {
         }
         return vec;
     }
+
+    public static List<int> String2IntList(string src, char split)
+    {
+        string[] str_array = src.Split('|');
+        List<int> ret = new List<int>();
+        foreach (var item in str_array)
+        {
+            ret.Add(int.Parse(item));
+        }
+        return ret;
+    }
+
 }

@@ -24,31 +24,5 @@ public class Player : MonoBehaviour {
         transform.position = randomVec;
     }
 
-    public Direction GetInputDir()
-    {
-        Direction dir = Direction.dirStop;
-        if (!Input.anyKey)
-        {
-            return dir;
-        }
-        string input = Input.inputString;
-        switch (input)
-        {
-            case "w":
-                dir = Direction.dirUp;
-                break;
-            case "s":
-                dir = Direction.dirDown;
-                break;
-            case "a":
-                dir = Direction.dirLeft;
-                break;
-            case "d":
-                dir = Direction.dirRight;
-                break;
-            default:
-                break;
-        }
-        return dir;
-    }
+
 }

@@ -20,7 +20,7 @@ public class WaitRoom : MonoBehaviour {
 
     public List<PublicInfo> waitCacheList;
     private static GameObject waitPlayerPrefab;
-    private Dictionary<int, GameObject> waitPlayers = new Dictionary<int, GameObject>();
+    private Dictionary<int, WaitPlayer> waitPlayers = new Dictionary<int, WaitPlayer>();
 
     private int roomHolder;
     bool gameStart = false;
@@ -43,6 +43,8 @@ public class WaitRoom : MonoBehaviour {
             Debug.Log("game start");
             this.gameObject.SetActive(false);
             gameScene.SetActive(true);
+            gameScene.GetComponent<GameController>().waitPlayers = waitPlayers;
+            gameScene.GetComponent<GameController>().actionRoleID = roomHolder;
             gameUI.SetActive(true);
         }
     }
@@ -62,7 +64,7 @@ public class WaitRoom : MonoBehaviour {
             int thisRoleID = item.roleID;
             if (waitPlayers.ContainsKey(thisRoleID))
             {
-                waitPlayers[thisRoleID].GetComponent<WaitPlayer>().status.text = item.status.ToString();
+                waitPlayers[thisRoleID].status.text = item.status.ToString();
             }
             else if (thisRoleID == PlayerData.Instance.RoleID)
             {
@@ -70,13 +72,14 @@ public class WaitRoom : MonoBehaviour {
             }
             Debug.Log("show new player. roleID:" + thisRoleID);
             GameObject go = Instantiate(waitPlayerPrefab);
-            go.GetComponent<WaitPlayer>().nameText.text = item.name;
-            go.GetComponent<WaitPlayer>().roleIDText.text = thisRoleID.ToString();
-            go.GetComponent<WaitPlayer>().status.text = item.status.ToString();
+            WaitPlayer wp = go.GetComponent<WaitPlayer>();
+            wp.nameText.text = item.name;
+            wp.roleIDText.text = thisRoleID.ToString();
+            wp.status.text = item.status.ToString();
 
             go.transform.SetParent(waitPlayerLayout.transform);
             go.name = "动态" + waitPlayers.Count;
-            waitPlayers[thisRoleID] = go;
+            waitPlayers[thisRoleID] = wp;
         }
         waitCacheList.Clear();
     }
@@ -106,15 +109,18 @@ public class WaitRoom : MonoBehaviour {
         ModifyStatusText();
     }
 
-    void AddNewWaitPlayer(PublicInfo pinfo)
+    void AddNewWaitPlayer(Protobuf.playersInfo pinfos)
     {
-        PublicInfo pi = new PublicInfo
+        foreach (var pinfo in pinfos.BaseInfos)
         {
-            roleID = pinfo.roleID,
-            name = pinfo.name,
-            status = pinfo.status,
-        };
-        this.waitCacheList.Add(pi);
+            PublicInfo pi = new PublicInfo
+            {
+                roleID = pinfo.RoleID,
+                name = pinfo.Name,
+                status = pinfo.Status,
+            };
+            this.waitCacheList.Add(pi);
+        }
     }
 
     void ModifyStatusText()

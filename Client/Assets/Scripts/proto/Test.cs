@@ -31,11 +31,13 @@ namespace Protobuf {
             "c2USEgoKcm9vbUhvbGRlchgCIAEoBRIlCgliYXNlSW5mb3MYAyADKAsyEi5w",
             "cm90b2J1Zi5iYXNlSW5mbyIcCg1zdGF0dXNSZXF1ZXN0EgsKA2NtZBgBIAEo",
             "BSIuCg9zdGF0dXNCcm9hZGNhc3QSDgoGcm9sZWlkGAEgASgFEgsKA2NtZBgC",
-            "IAEoBSIfCgd0ZXN0QWRkEgkKAWEYASABKAUSCQoBYhgCIAEoBSIdCg1jaGF0",
-            "QnJvYWRjYXN0EgwKBHNhaWQYASABKAkiSQoMU3RvcmVSZXF1ZXN0EgwKBG5h",
-            "bWUYASABKAkSCwoDbnVtGAIgASgFEg4KBnJlc3VsdBgDIAEoBRIOCgZteUxp",
-            "c3QYBCADKAkiIAoOY29tbW9uUmVzcG9uc2USDgoGc3RhdHVzGAEgASgFYgZw",
-            "cm90bzM="));
+            "IAEoBSIgCgttb3ZlUmVxdWVzdBIRCglkaXJlY3Rpb24YASABKAUiUgoNbW92",
+            "ZUJyb2FkY2FzdBIOCgZyb2xlSUQYASABKAUSEQoJZGlyZWN0aW9uGAIgASgF",
+            "Eg4KBnJvb21JRBgDIAEoBRIOCgZjYXJkSUQYBCABKAUiHwoHdGVzdEFkZBIJ",
+            "CgFhGAEgASgFEgkKAWIYAiABKAUiHQoNY2hhdEJyb2FkY2FzdBIMCgRzYWlk",
+            "GAEgASgJIkkKDFN0b3JlUmVxdWVzdBIMCgRuYW1lGAEgASgJEgsKA251bRgC",
+            "IAEoBRIOCgZyZXN1bHQYAyABKAUSDgoGbXlMaXN0GAQgAygJIiAKDmNvbW1v",
+            "blJlc3BvbnNlEg4KBnN0YXR1cxgBIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -44,6 +46,8 @@ namespace Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.playersInfo), global::Protobuf.playersInfo.Parser, new[]{ "Cr", "RoomHolder", "BaseInfos" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.statusRequest), global::Protobuf.statusRequest.Parser, new[]{ "Cmd" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.statusBroadcast), global::Protobuf.statusBroadcast.Parser, new[]{ "Roleid", "Cmd" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveRequest), global::Protobuf.moveRequest.Parser, new[]{ "Direction" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveBroadcast), global::Protobuf.moveBroadcast.Parser, new[]{ "RoleID", "Direction", "RoomID", "CardID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "Said" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.StoreRequest), global::Protobuf.StoreRequest.Parser, new[]{ "Name", "Num", "Result", "MyList" }, null, null, null),
@@ -874,6 +878,351 @@ namespace Protobuf {
 
   }
 
+  /// <summary>
+  ///******Íæ¼ÒÒÆ¶¯********
+  /// </summary>
+  public sealed partial class moveRequest : pb::IMessage<moveRequest> {
+    private static readonly pb::MessageParser<moveRequest> _parser = new pb::MessageParser<moveRequest>(() => new moveRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<moveRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveRequest(moveRequest other) : this() {
+      direction_ = other.direction_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveRequest Clone() {
+      return new moveRequest(this);
+    }
+
+    /// <summary>Field number for the "direction" field.</summary>
+    public const int DirectionFieldNumber = 1;
+    private int direction_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Direction {
+      get { return direction_; }
+      set {
+        direction_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as moveRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(moveRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Direction != other.Direction) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Direction != 0) hash ^= Direction.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Direction != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Direction);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Direction != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Direction);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(moveRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Direction != 0) {
+        Direction = other.Direction;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Direction = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class moveBroadcast : pb::IMessage<moveBroadcast> {
+    private static readonly pb::MessageParser<moveBroadcast> _parser = new pb::MessageParser<moveBroadcast>(() => new moveBroadcast());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<moveBroadcast> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveBroadcast() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveBroadcast(moveBroadcast other) : this() {
+      roleID_ = other.roleID_;
+      direction_ = other.direction_;
+      roomID_ = other.roomID_;
+      cardID_ = other.cardID_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public moveBroadcast Clone() {
+      return new moveBroadcast(this);
+    }
+
+    /// <summary>Field number for the "roleID" field.</summary>
+    public const int RoleIDFieldNumber = 1;
+    private int roleID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoleID {
+      get { return roleID_; }
+      set {
+        roleID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "direction" field.</summary>
+    public const int DirectionFieldNumber = 2;
+    private int direction_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Direction {
+      get { return direction_; }
+      set {
+        direction_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "roomID" field.</summary>
+    public const int RoomIDFieldNumber = 3;
+    private int roomID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoomID {
+      get { return roomID_; }
+      set {
+        roomID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "cardID" field.</summary>
+    public const int CardIDFieldNumber = 4;
+    private int cardID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CardID {
+      get { return cardID_; }
+      set {
+        cardID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as moveBroadcast);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(moveBroadcast other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoleID != other.RoleID) return false;
+      if (Direction != other.Direction) return false;
+      if (RoomID != other.RoomID) return false;
+      if (CardID != other.CardID) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoleID != 0) hash ^= RoleID.GetHashCode();
+      if (Direction != 0) hash ^= Direction.GetHashCode();
+      if (RoomID != 0) hash ^= RoomID.GetHashCode();
+      if (CardID != 0) hash ^= CardID.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoleID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(RoleID);
+      }
+      if (Direction != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Direction);
+      }
+      if (RoomID != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(RoomID);
+      }
+      if (CardID != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(CardID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoleID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoleID);
+      }
+      if (Direction != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Direction);
+      }
+      if (RoomID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomID);
+      }
+      if (CardID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CardID);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(moveBroadcast other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoleID != 0) {
+        RoleID = other.RoleID;
+      }
+      if (other.Direction != 0) {
+        Direction = other.Direction;
+      }
+      if (other.RoomID != 0) {
+        RoomID = other.RoomID;
+      }
+      if (other.CardID != 0) {
+        CardID = other.CardID;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            RoleID = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Direction = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            RoomID = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            CardID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class testAdd : pb::IMessage<testAdd> {
     private static readonly pb::MessageParser<testAdd> _parser = new pb::MessageParser<testAdd>(() => new testAdd());
     private pb::UnknownFieldSet _unknownFields;
@@ -882,7 +1231,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1042,7 +1391,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1171,7 +1520,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1376,7 +1725,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
