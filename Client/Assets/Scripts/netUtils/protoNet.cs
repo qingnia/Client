@@ -14,10 +14,10 @@ namespace Net
 
     public class protoNet : ScriptableObject
     {
-        [MenuItem("Tools/MyTool/Do It in C#")]
+        //[MenuItem("Tools/MyTool/Do It in C#")]
         static void DoIt()
         {
-            EditorUtility.DisplayDialog("MyTool", "Do It in C# !", "OK", "");
+            //EditorUtility.DisplayDialog("MyTool", "Do It in C# !", "OK", "");
         }
 
         public static IMessage Deserialize(MessageParser _type, byte[] byteData)

@@ -140,7 +140,7 @@ public class SingleNet : SingleInstance<SingleNet>
                 LoginEvent(pinfos);
                 Debug.Log("登陆返回");
                 break;
-            case "rpcMsg:loginBroad":
+            case "rpcMsg:newJoin":
                 playersInfo newPinfo = playersInfo.Parser.ParseFrom(msg);
                 PlayerJoinEvent(newPinfo);
                 break;
