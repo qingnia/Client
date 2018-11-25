@@ -1,4 +1,6 @@
 Client/obj/
+Client/client.app/
+*.swp
 Client/Temp/
 Client/Library/
 Client/Library/metadata/

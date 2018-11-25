@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
     private GameObject playerPanelPrefab;
     private GameObject roomPrefab;
 
-    private int currentPlayerID;
     private int roomCount = 1;
     public int actionRoleID;
 
@@ -35,7 +34,6 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        currentPlayerID = -1;
         roomMap = new Dictionary<int, Dictionary<int, Room>>(100);
         playerPrefab = (GameObject)Resources.Load("Prefabs/Player");
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
@@ -116,7 +114,6 @@ public class GameController : MonoBehaviour
 
     public void InitGame()
     {
-        currentPlayerID = 0;
         InitRoomMap();
         InitPlayerList();
     }
@@ -155,16 +152,16 @@ public class GameController : MonoBehaviour
                 roomMap[x][y] = r;
             }
             p.transform.position = nextPos;
-            currentPlayerID++;
-            if (currentPlayerID >= playerList.Count)
-            {
-                currentPlayerID = 0;
-            }
 
             //如果有卡片，还要执行卡片的操作
             if (item.CardID > 0)
             {
                 Debug.Log("玩家获得了新卡片：" + item.CardID);
+            }
+            if (item.NextActionRoleID > 0)
+            {
+                Debug.Log("行动切换，接下来是" + item.NextActionRoleID);
+                this.actionRoleID = item.NextActionRoleID;
             }
         }
         moveCache.Clear();
