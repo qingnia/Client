@@ -11,8 +11,12 @@ public class fightCache
     public int CardID { get; set; }
 }
 
+public delegate void GameHisHandler(string msg);
+
 public class GameController : MonoBehaviour
 {
+    public event GameHisHandler GameHisEvent;
+
     public GameObject playerStatusUI;
 
     [HideInInspector]
@@ -41,6 +45,8 @@ public class GameController : MonoBehaviour
         SingleNet.Instance.PlayerMove += OnPlayerMove;
 
         InitGame();
+
+        GameHisEvent("游戏开始！");
     }
 
     // Update is called once per frame
@@ -136,6 +142,7 @@ public class GameController : MonoBehaviour
             Direction dir = (Direction)item.Direction;
 
             Debug.Log("处理玩家移动 role:" + roleID);
+            GameHisEvent("玩家" + roleID + "向" + dir + "移动");
 
             Vector3 nextPos = CommonFun.NextPos(p.transform.position, dir);
             //Vector3 vec = CommonFun.Vector2MapIndex(nextPos);
@@ -161,7 +168,13 @@ public class GameController : MonoBehaviour
             if (item.NextActionRoleID > 0)
             {
                 Debug.Log("行动切换，接下来是" + item.NextActionRoleID);
+                GameHisEvent("行动切换，接下来是" + item.NextActionRoleID);
                 this.actionRoleID = item.NextActionRoleID;
+            }
+            if (item.NeedAttack)
+            {
+                Debug.Log("玩家需要选择是否攻击");
+                GameHisEvent("玩家需要选择是否攻击");
             }
         }
         moveCache.Clear();

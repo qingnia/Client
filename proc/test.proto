@@ -55,6 +55,7 @@ message moveBroadcast
     int32 roomID = 3;
     int32 cardID = 4;
     int32 nextActionRoleID = 5;
+    bool needAttack = 6;
 }
 /***********************/
 

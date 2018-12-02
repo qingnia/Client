@@ -17,6 +17,7 @@ public class WaitRoom : MonoBehaviour {
     public Button startButton;
     public GameObject gameScene;
     public GameObject gameUI;
+    public GameObject gameHis;
 
     public List<PublicInfo> waitCacheList;
     private static GameObject waitPlayerPrefab;

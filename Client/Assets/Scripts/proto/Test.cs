@@ -32,13 +32,14 @@ namespace Protobuf {
             "cm90b2J1Zi5iYXNlSW5mbyIcCg1zdGF0dXNSZXF1ZXN0EgsKA2NtZBgBIAEo",
             "BSJECg9zdGF0dXNCcm9hZGNhc3QSDgoGcm9sZWlkGAEgASgFEgsKA2NtZBgC",
             "IAEoBRIUCgxhY3Rpb25Sb2xlSUQYAyABKAUiIAoLbW92ZVJlcXVlc3QSEQoJ",
-            "ZGlyZWN0aW9uGAEgASgFImwKDW1vdmVCcm9hZGNhc3QSDgoGcm9sZUlEGAEg",
-            "ASgFEhEKCWRpcmVjdGlvbhgCIAEoBRIOCgZyb29tSUQYAyABKAUSDgoGY2Fy",
-            "ZElEGAQgASgFEhgKEG5leHRBY3Rpb25Sb2xlSUQYBSABKAUiHwoHdGVzdEFk",
-            "ZBIJCgFhGAEgASgFEgkKAWIYAiABKAUiHQoNY2hhdEJyb2FkY2FzdBIMCgRz",
-            "YWlkGAEgASgJIkkKDFN0b3JlUmVxdWVzdBIMCgRuYW1lGAEgASgJEgsKA251",
-            "bRgCIAEoBRIOCgZyZXN1bHQYAyABKAUSDgoGbXlMaXN0GAQgAygJIiAKDmNv",
-            "bW1vblJlc3BvbnNlEg4KBnN0YXR1cxgBIAEoBWIGcHJvdG8z"));
+            "ZGlyZWN0aW9uGAEgASgFIoABCg1tb3ZlQnJvYWRjYXN0Eg4KBnJvbGVJRBgB",
+            "IAEoBRIRCglkaXJlY3Rpb24YAiABKAUSDgoGcm9vbUlEGAMgASgFEg4KBmNh",
+            "cmRJRBgEIAEoBRIYChBuZXh0QWN0aW9uUm9sZUlEGAUgASgFEhIKCm5lZWRB",
+            "dHRhY2sYBiABKAgiHwoHdGVzdEFkZBIJCgFhGAEgASgFEgkKAWIYAiABKAUi",
+            "HQoNY2hhdEJyb2FkY2FzdBIMCgRzYWlkGAEgASgJIkkKDFN0b3JlUmVxdWVz",
+            "dBIMCgRuYW1lGAEgASgJEgsKA251bRgCIAEoBRIOCgZyZXN1bHQYAyABKAUS",
+            "DgoGbXlMaXN0GAQgAygJIiAKDmNvbW1vblJlc3BvbnNlEg4KBnN0YXR1cxgB",
+            "IAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -48,7 +49,7 @@ namespace Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.statusRequest), global::Protobuf.statusRequest.Parser, new[]{ "Cmd" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.statusBroadcast), global::Protobuf.statusBroadcast.Parser, new[]{ "Roleid", "Cmd", "ActionRoleID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveRequest), global::Protobuf.moveRequest.Parser, new[]{ "Direction" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveBroadcast), global::Protobuf.moveBroadcast.Parser, new[]{ "RoleID", "Direction", "RoomID", "CardID", "NextActionRoleID" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveBroadcast), global::Protobuf.moveBroadcast.Parser, new[]{ "RoleID", "Direction", "RoomID", "CardID", "NextActionRoleID", "NeedAttack" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "Said" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.StoreRequest), global::Protobuf.StoreRequest.Parser, new[]{ "Name", "Num", "Result", "MyList" }, null, null, null),
@@ -1069,6 +1070,7 @@ namespace Protobuf {
       roomID_ = other.roomID_;
       cardID_ = other.cardID_;
       nextActionRoleID_ = other.nextActionRoleID_;
+      needAttack_ = other.needAttack_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1132,6 +1134,17 @@ namespace Protobuf {
       }
     }
 
+    /// <summary>Field number for the "needAttack" field.</summary>
+    public const int NeedAttackFieldNumber = 6;
+    private bool needAttack_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool NeedAttack {
+      get { return needAttack_; }
+      set {
+        needAttack_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as moveBroadcast);
@@ -1150,6 +1163,7 @@ namespace Protobuf {
       if (RoomID != other.RoomID) return false;
       if (CardID != other.CardID) return false;
       if (NextActionRoleID != other.NextActionRoleID) return false;
+      if (NeedAttack != other.NeedAttack) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1161,6 +1175,7 @@ namespace Protobuf {
       if (RoomID != 0) hash ^= RoomID.GetHashCode();
       if (CardID != 0) hash ^= CardID.GetHashCode();
       if (NextActionRoleID != 0) hash ^= NextActionRoleID.GetHashCode();
+      if (NeedAttack != false) hash ^= NeedAttack.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1194,6 +1209,10 @@ namespace Protobuf {
         output.WriteRawTag(40);
         output.WriteInt32(NextActionRoleID);
       }
+      if (NeedAttack != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(NeedAttack);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1216,6 +1235,9 @@ namespace Protobuf {
       }
       if (NextActionRoleID != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NextActionRoleID);
+      }
+      if (NeedAttack != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1242,6 +1264,9 @@ namespace Protobuf {
       }
       if (other.NextActionRoleID != 0) {
         NextActionRoleID = other.NextActionRoleID;
+      }
+      if (other.NeedAttack != false) {
+        NeedAttack = other.NeedAttack;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1272,6 +1297,10 @@ namespace Protobuf {
           }
           case 40: {
             NextActionRoleID = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            NeedAttack = input.ReadBool();
             break;
           }
         }
