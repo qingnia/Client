@@ -20,6 +20,7 @@ public class Config : SingleInstance<Config>
     {
         if (roomConfig.Count == 0)
         {
+            Resources.Load("tables/room.csv");
             roomConfig = CSVFileHelper.OpenCSV("Assets/Tables/Room.csv");
         }
         return roomConfig[roomID];

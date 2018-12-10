@@ -1,5 +1,6 @@
 Client/obj/
 Client/client.app/
+Client/build/
 *.swp
 Client/Temp/
 Client/Library/
