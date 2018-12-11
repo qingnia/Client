@@ -7,6 +7,7 @@ public class PlayerPanel : MonoBehaviour {
 
     public Text characterName, characterSex, characterAge;
     public Text strength, speed, knowledge, spirit;
+    public GameObject table;
 
     private Object player;
     private int characterID, roleID;
@@ -40,7 +41,8 @@ public class PlayerPanel : MonoBehaviour {
         this.player = obj;
         this.characterID = index;
         this.roleID = roleID;
-        Dictionary<string, string> playerConfig = Config.Instance.GetPlayerConfig(index);
+        Dictionary<string, string> playerConfig = table.GetComponent<Config>().GetPlayerConfig(index);
+        //Dictionary<string, string> playerConfig = Config.Instance.GetPlayerConfig(index);
 
         this.characterName.text = playerConfig["name"];
         this.characterAge.text = playerConfig["age"];

@@ -1898,7 +1898,7 @@ MonoBehaviour:
   startButton: {fileID: 1252387955}
   gameScene: {fileID: 1715664863}
   gameUI: {fileID: 1386767633}
-  gameHis: {fileID: 0}
+  gameHis: {fileID: 685579795}
 --- !u!1 &1049384223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3074,6 +3074,50 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1318330721}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1363955924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1363955925}
+  - component: {fileID: 1363955926}
+  m_Layer: 0
+  m_Name: Config
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1363955925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363955924}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1907646684}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1363955926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363955924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8fe69930c664007aba79089432ce8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4900000, guid: 5b690486fa8844f91bf2b36226260ff0, type: 3}
 --- !u!1 &1378093452
 GameObject:
   m_ObjectHideFlags: 0
@@ -4130,6 +4174,12 @@ PrefabInstance:
       objectReference: {fileID: 1386767633}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0159683a6c8e0e545981fde64f27db72, type: 3}
+--- !u!4 &1907646684 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4547521542368574, guid: 0159683a6c8e0e545981fde64f27db72,
+    type: 3}
+  m_PrefabInstance: {fileID: 1907646683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1944792985
 GameObject:
   m_ObjectHideFlags: 0
