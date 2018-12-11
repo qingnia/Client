@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public event GameHisHandler GameHisEvent;
 
     public GameObject playerStatusUI;
+    public GameObject config;
 
     [HideInInspector]
     public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
@@ -203,7 +204,7 @@ public class GameController : MonoBehaviour
         PlayerPanel playerPanel = pp.GetComponent<PlayerPanel>();
         //playerPanel.SetPlayer(go);
         //playerPanel.InitPlayer(n);
-        pp.GetComponent<PlayerPanel>().InitPlayerPanel(go, roleID, characterID);
+        pp.GetComponent<PlayerPanel>().InitPlayerPanel(go, roleID, characterID, config);
 
         Vector3 newPos = pp.transform.position;
         switch(characterID)
@@ -259,5 +260,16 @@ public class GameController : MonoBehaviour
         room.InitRoom(roomID, v3);
         return room;
     }
-    
+
+    public Room GetRoomByPos(Vector3 pos)
+    {
+        Vector3 mapIndex = CommonFun.Vector2MapIndex(pos);
+        int x = (int)mapIndex.x;
+        int y = (int)mapIndex.z;
+        if (!roomMap.ContainsKey(x) || !roomMap[x].ContainsKey(y))
+        {
+            return null;
+        }
+        return roomMap[x][y];
+    }
 }

@@ -46,7 +46,7 @@ public class Config : MonoBehaviour
         Dictionary<int, Dictionary<string, string>> csvInfo = new Dictionary<int, Dictionary<string, string>>();
 
         //读取每一行的内容  
-        string[] lineArray = ta.text.Split("\r"[0]);
+        string[] lineArray = ta.text.Split('\n');
 
         //记录每行记录中的各字段内容
         string[] aryLine = null;
@@ -60,7 +60,7 @@ public class Config : MonoBehaviour
 
         int id = 0;
         //逐行读取CSV中的数据
-        for(int i = 2; i < lineArray.Length; i++)
+        for(int i = 2; i < lineArray.Length - 2; i++)
         {
             //strLine = Common.ConvertStringUTF8(strLine, encoding);
             //strLine = Common.ConvertStringUTF8(strLine);
