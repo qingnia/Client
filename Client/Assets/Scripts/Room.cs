@@ -11,13 +11,12 @@ public class Room : MonoBehaviour {
     int[] exportArray = { 0, 1, 1, 1 };
 
 
-    public void InitRoom(int id, Vector3 v3)
+    public void InitRoom(int id, Vector3 v3, Config config)
     {
         Vector3 pos = CommonFun.Vector2RoomPos(v3);
-        Config cf = Config.GetInstance();
         transform.position = pos;
 
-        Dictionary<string, string> roomConfig = cf.GetRoomConfig(id);
+        Dictionary<string, string> roomConfig = config.GetRoomConfig(id);
         roomName = roomConfig["name"];
 
         SetShowInfo();

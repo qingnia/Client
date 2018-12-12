@@ -4,29 +4,20 @@ using UnityEngine;
 
 public class Config : MonoBehaviour
 {
-
-    private static Config cf = new Config();
-
     private Dictionary<int, Dictionary<string, string>> roomConfig = new Dictionary<int, Dictionary<string, string>>();
     private Dictionary<int, Dictionary<string, string>> playerConfig = new Dictionary<int, Dictionary<string, string>>();
-
-    private Config() {}
-
+    
     public TextAsset player;
-    //public TextAsset room;
-
-    public static Config GetInstance()
-    {
-        return cf;
-    }
+    public TextAsset room;
 
     public Dictionary<string, string> GetRoomConfig(int roomID)
     {
         if (roomConfig.Count == 0)
         {
             //roomConfig = CSVFileHelper.OpenCSV("Assets/Tables/Room.csv");
-            TextAsset binAsset = Resources.Load("Tables/Room", typeof(TextAsset)) as TextAsset;
-            roomConfig = LoadCsvData(binAsset);
+            //TextAsset binAsset = Resources.Load("Tables/Room", typeof(TextAsset)) as TextAsset;
+            //roomConfig = LoadCsvData(binAsset);
+            roomConfig = LoadCsvData(room);
         }
         return roomConfig[roomID];
     }
@@ -47,6 +38,14 @@ public class Config : MonoBehaviour
 
         //读取每一行的内容  
         string[] lineArray = ta.text.Split('\n');
+        for(int i = 0; i < lineArray.Length; i++)
+        {
+            if (lineArray[i].Length <= 1)
+            {
+                break;
+            }
+            lineArray[i] = lineArray[i].Substring(0, lineArray[i].Length - 1);
+        }
 
         //记录每行记录中的各字段内容
         string[] aryLine = null;

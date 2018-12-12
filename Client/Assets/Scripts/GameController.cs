@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     private GameObject playerPrefab;
     private GameObject playerPanelPrefab;
     private GameObject roomPrefab;
+    private Config cf;
 
     private int roomCount = 1;
     public int actionRoleID;
@@ -44,6 +45,7 @@ public class GameController : MonoBehaviour
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
         SingleNet.Instance.PlayerMove += OnPlayerMove;
+        cf = config.GetComponent<Config>();
 
         InitGame();
 
@@ -257,7 +259,7 @@ public class GameController : MonoBehaviour
         go.transform.parent = transform.GetChild(0);
         go.name = "新房间";
         Room room = go.GetComponent<Room>();
-        room.InitRoom(roomID, v3);
+        room.InitRoom(roomID, v3, cf);
         return room;
     }
 

@@ -50,9 +50,9 @@ public class ChatControl : MonoBehaviour {
         SingleNet.Instance.ChatEvent += new ChatEventHandler(AddChatList);
     }
 
-    public void AddChatList(int roleID, string msg)
+    public void AddChatList(Protobuf.chatBroadcast cb)
     {
-        ChatCache cm = new ChatCache(roleID, msg);
+        ChatCache cm = new ChatCache(cb.RoleID, cb.Said);
         this.chatMsgList.Add(cm);
     }
 

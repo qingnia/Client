@@ -66,8 +66,13 @@ message testAdd
 }
 
 //ÁÄÌìĞ­Òé
-message chatBroadcast {
+message chatRequest {
     string said = 1;
+}
+
+message chatBroadcast {
+    int32 roleID = 1;
+    string said = 2;
 }
 
 message StoreRequest {

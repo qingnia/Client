@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using Thrift.Transport;
 using Thrift.Protocol;
 
-public delegate void ChatEventHandler(int roleID, string msg);
+public delegate void ChatEventHandler(chatBroadcast cb);
 public delegate void LoginEventHandler(playersInfo pinfos);
 public delegate void PlayerJoinEventHandler(playersInfo pinfo);
 public delegate void PlayerStatusModifyEventHandler(statusBroadcast sb);
@@ -158,11 +158,9 @@ public class SingleNet : SingleInstance<SingleNet>
                 PlayerMove(mb);
                 break;
             case "rpcMsg:chatBroad":
-                chatBroadcast tcccc = chatBroadcast.Parser.ParseFrom(msg);
-                //ChatControl.AddChatHis(tcccc.Said);
-                Debug.Log("聊天返回: " + tcccc.Said);
-
-                ChatEvent(123456, tcccc.Said);
+                chatBroadcast cb = chatBroadcast.Parser.ParseFrom(msg);
+                ChatEvent(cb);
+                Debug.Log("聊天新消息");
                 break;
             default:
                 break;
@@ -171,7 +169,7 @@ public class SingleNet : SingleInstance<SingleNet>
 
     public void SendChatMsg(string msg)
     {
-        chatBroadcast tc = new chatBroadcast
+        chatRequest tc = new chatRequest
         {
             Said = msg
         };

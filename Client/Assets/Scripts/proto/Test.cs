@@ -36,7 +36,8 @@ namespace Protobuf {
             "IAEoBRIRCglkaXJlY3Rpb24YAiABKAUSDgoGcm9vbUlEGAMgASgFEg4KBmNh",
             "cmRJRBgEIAEoBRIYChBuZXh0QWN0aW9uUm9sZUlEGAUgASgFEhIKCm5lZWRB",
             "dHRhY2sYBiABKAgiHwoHdGVzdEFkZBIJCgFhGAEgASgFEgkKAWIYAiABKAUi",
-            "HQoNY2hhdEJyb2FkY2FzdBIMCgRzYWlkGAEgASgJIkkKDFN0b3JlUmVxdWVz",
+            "GwoLY2hhdFJlcXVlc3QSDAoEc2FpZBgBIAEoCSItCg1jaGF0QnJvYWRjYXN0",
+            "Eg4KBnJvbGVJRBgBIAEoBRIMCgRzYWlkGAIgASgJIkkKDFN0b3JlUmVxdWVz",
             "dBIMCgRuYW1lGAEgASgJEgsKA251bRgCIAEoBRIOCgZyZXN1bHQYAyABKAUS",
             "DgoGbXlMaXN0GAQgAygJIiAKDmNvbW1vblJlc3BvbnNlEg4KBnN0YXR1cxgB",
             "IAEoBWIGcHJvdG8z"));
@@ -51,7 +52,8 @@ namespace Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveRequest), global::Protobuf.moveRequest.Parser, new[]{ "Direction" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveBroadcast), global::Protobuf.moveBroadcast.Parser, new[]{ "RoleID", "Direction", "RoomID", "CardID", "NextActionRoleID", "NeedAttack" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "Said" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatRequest), global::Protobuf.chatRequest.Parser, new[]{ "Said" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "RoleID", "Said" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.StoreRequest), global::Protobuf.StoreRequest.Parser, new[]{ "Name", "Num", "Result", "MyList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.commonResponse), global::Protobuf.commonResponse.Parser, new[]{ "Status" }, null, null, null)
           }));
@@ -1469,11 +1471,11 @@ namespace Protobuf {
   /// <summary>
   ///¡ƒÃÏ–≠“È
   /// </summary>
-  public sealed partial class chatBroadcast : pb::IMessage<chatBroadcast> {
-    private static readonly pb::MessageParser<chatBroadcast> _parser = new pb::MessageParser<chatBroadcast>(() => new chatBroadcast());
+  public sealed partial class chatRequest : pb::IMessage<chatRequest> {
+    private static readonly pb::MessageParser<chatRequest> _parser = new pb::MessageParser<chatRequest>(() => new chatRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<chatBroadcast> Parser { get { return _parser; } }
+    public static pb::MessageParser<chatRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1486,21 +1488,21 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public chatBroadcast() {
+    public chatRequest() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public chatBroadcast(chatBroadcast other) : this() {
+    public chatRequest(chatRequest other) : this() {
       said_ = other.said_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public chatBroadcast Clone() {
-      return new chatBroadcast(this);
+    public chatRequest Clone() {
+      return new chatRequest(this);
     }
 
     /// <summary>Field number for the "said" field.</summary>
@@ -1516,11 +1518,11 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as chatBroadcast);
+      return Equals(other as chatRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(chatBroadcast other) {
+    public bool Equals(chatRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1570,7 +1572,7 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(chatBroadcast other) {
+    public void MergeFrom(chatRequest other) {
       if (other == null) {
         return;
       }
@@ -1598,6 +1600,163 @@ namespace Protobuf {
 
   }
 
+  public sealed partial class chatBroadcast : pb::IMessage<chatBroadcast> {
+    private static readonly pb::MessageParser<chatBroadcast> _parser = new pb::MessageParser<chatBroadcast>(() => new chatBroadcast());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<chatBroadcast> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast(chatBroadcast other) : this() {
+      roleID_ = other.roleID_;
+      said_ = other.said_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public chatBroadcast Clone() {
+      return new chatBroadcast(this);
+    }
+
+    /// <summary>Field number for the "roleID" field.</summary>
+    public const int RoleIDFieldNumber = 1;
+    private int roleID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RoleID {
+      get { return roleID_; }
+      set {
+        roleID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "said" field.</summary>
+    public const int SaidFieldNumber = 2;
+    private string said_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Said {
+      get { return said_; }
+      set {
+        said_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as chatBroadcast);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(chatBroadcast other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoleID != other.RoleID) return false;
+      if (Said != other.Said) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoleID != 0) hash ^= RoleID.GetHashCode();
+      if (Said.Length != 0) hash ^= Said.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoleID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(RoleID);
+      }
+      if (Said.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Said);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoleID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoleID);
+      }
+      if (Said.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Said);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(chatBroadcast other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoleID != 0) {
+        RoleID = other.RoleID;
+      }
+      if (other.Said.Length != 0) {
+        Said = other.Said;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            RoleID = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Said = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class StoreRequest : pb::IMessage<StoreRequest> {
     private static readonly pb::MessageParser<StoreRequest> _parser = new pb::MessageParser<StoreRequest>(() => new StoreRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -1606,7 +1765,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1811,7 +1970,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Protobuf.TestReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
