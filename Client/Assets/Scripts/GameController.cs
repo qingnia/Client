@@ -61,11 +61,16 @@ public class GameController : MonoBehaviour
         //只有在自己行动回合，才监听输入，否则只接收网络消息
         if (PlayerData.Instance.RoleID == actionRoleID)
         {
+            //判断要不要显示攻击按钮
+            SetAttackButton();
+
             Direction dir = GetInputDir();
             if (dir != Direction.dirNone)
             {
-                Protobuf.moveRequest mr = new Protobuf.moveRequest();
-                mr.Direction = (int)dir;
+                Protobuf.moveRequest mr = new Protobuf.moveRequest
+                {
+                    Direction = (int)dir
+                };
                 SingleNet.Instance.SendMsgCommon(mr, "move");
             }
         }
@@ -273,5 +278,32 @@ public class GameController : MonoBehaviour
             return null;
         }
         return roomMap[x][y];
+    }
+
+    private void SetAttackButton()
+    {
+        int selfRoleID = PlayerData.Instance.RoleID;
+        Player p = playerList[selfRoleID];
+        int selfRoomID = GetRoomIDByRoleID(selfRoleID);
+
+        Vector3 pos = p.transform.position;
+        foreach (var op in playerList)
+        {
+            if (op.Value.RoleID == selfRoleID)
+            {
+                continue;
+            }
+            if (GetRoomIDByRoleID(op.Value.RoleID) == selfRoomID)
+            {
+                playerStatusUI.AddComponent<FightRoom>().attack.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private int GetRoomIDByRoleID(int roleID)
+    {
+        Player p = playerList[roleID];
+        Room r = GetRoomByPos(p.transform.position);
+        return r.roomID;
     }
 }

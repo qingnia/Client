@@ -6,6 +6,7 @@ using Protobuf;
 public class Room : MonoBehaviour {
 
     private string roomName;
+    public int roomID;
     public TextMesh nameContext;
     public MeshRenderer northWall, RightWall, southWall, LeftWall;
     int[] exportArray = { 0, 1, 1, 1 };
@@ -13,6 +14,7 @@ public class Room : MonoBehaviour {
 
     public void InitRoom(int id, Vector3 v3, Config config)
     {
+        this.roomID = id;
         Vector3 pos = CommonFun.Vector2RoomPos(v3);
         transform.position = pos;
 
