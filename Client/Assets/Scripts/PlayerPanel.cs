@@ -7,9 +7,10 @@ public class PlayerPanel : MonoBehaviour {
 
     public Text characterName, characterSex, characterAge;
     public Text strength, speed, knowledge, spirit;
+    public Image background;
 
     private Object player;
-    private int characterID, roleID;
+    public int characterID, roleID;
     private string playerName;
     Dictionary<examType, int> et2Level;
     Dictionary<examType, string[]> etLevel2Value;
@@ -67,4 +68,17 @@ public class PlayerPanel : MonoBehaviour {
         spirit.text = etLevel2Value[examType.etSpirit][et2Level[examType.etSpirit]];
     }
 
+    public void OnClick()
+    {
+        FightRoom fr = GetComponentInParent<FightRoom>();
+        if (fr.CanAttack())
+        {
+            Protobuf.attackRequest ar = new Protobuf.attackRequest
+            {
+                TargetID = this.roleID,
+                Option = 0,
+            }
+            SingleNet.Instance.SendMsgCommon(ar, "attack");
+        }
+    }
 }

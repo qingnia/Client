@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
     
     public int RoleID { get; set; }
+    public int CharacterID { get; set; }
     // Use this for initialization
     void Start () {
 		
@@ -16,9 +17,10 @@ public class Player : MonoBehaviour {
 
     }
 
-    public void InitPlayer(int id)
+    public void InitPlayer(int id, int roleID)
     {
-        RoleID = id;
+        CharacterID = id;
+        RoleID = roleID;
         Vector3 randomVec = transform.position;
         randomVec.x += id * 2;
         transform.position = randomVec;

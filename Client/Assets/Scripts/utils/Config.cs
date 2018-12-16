@@ -44,7 +44,7 @@ public class Config : MonoBehaviour
             {
                 break;
             }
-            lineArray[i] = lineArray[i].Substring(0, lineArray[i].Length - 1);
+            //lineArray[i] = lineArray[i].Substring(0, lineArray[i].Length - 1);
         }
 
         //记录每行记录中的各字段内容

@@ -19,6 +19,11 @@ public class FightRoom : MonoBehaviour
         
     }
 
+    public bool CanAttack()
+    {
+        return this.attack.enabled;
+    }
+
     public void ClickAttack()
     {
         Debug.Log("攻击");

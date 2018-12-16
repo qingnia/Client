@@ -204,7 +204,7 @@ public class GameController : MonoBehaviour
         go.transform.parent = this.transform;
         go.name = "动态" + playerList.Count;
         Player p = go.GetComponent<Player>();
-        p.InitPlayer(characterID);
+        p.InitPlayer(characterID, roleID);
 
         //状态UI玩家
         GameObject pp = Instantiate(playerPanelPrefab);
@@ -282,6 +282,9 @@ public class GameController : MonoBehaviour
 
     private void SetAttackButton()
     {
+        FightRoom fr = playerStatusUI.GetComponent<FightRoom>();
+        fr.attack.gameObject.SetActive(false);
+
         int selfRoleID = PlayerData.Instance.RoleID;
         Player p = playerList[selfRoleID];
         int selfRoomID = GetRoomIDByRoleID(selfRoleID);
@@ -289,21 +292,34 @@ public class GameController : MonoBehaviour
         Vector3 pos = p.transform.position;
         foreach (var op in playerList)
         {
-            if (op.Value.RoleID == selfRoleID)
+            if (op.Key == selfRoleID)
             {
                 continue;
             }
             if (GetRoomIDByRoleID(op.Value.RoleID) == selfRoomID)
             {
-                playerStatusUI.AddComponent<FightRoom>().attack.gameObject.SetActive(true);
+                fr.attack.gameObject.SetActive(true);
+                PlayerPanel[] pps = fr.GetComponentsInChildren<PlayerPanel>();
+                foreach (var pp in pps)
+                {
+                    if (pp.roleID == op.Value.RoleID)
+                    {
+                        pp.background.color = new Color(255, 0, 0);
+                    }
+                }
             }
         }
     }
 
     private int GetRoomIDByRoleID(int roleID)
     {
+        if (!playerList.ContainsKey(roleID))
+        {
+            Debug.Log("找不到玩家：" + roleID);
+            return 0;
+        }
         Player p = playerList[roleID];
-        Room r = GetRoomByPos(p.transform.position);
+        Room r = GetRoomByPos(p.gameObject.transform.position);
         return r.roomID;
     }
 }

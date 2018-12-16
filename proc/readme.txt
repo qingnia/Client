@@ -18,3 +18,4 @@ Please refer to our official github site for more installation instructions:
 设置系统变量：path添加如  F:\test\proc\bin
 
 执行命令protoc  -I=f:\test\proc\   --csharp_out=f:\test\proc   f:\test\proc\test.proto
+Mac下执行：protoc test.proto --csharp_out=.

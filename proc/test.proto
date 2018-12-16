@@ -59,6 +59,19 @@ message moveBroadcast
 }
 /***********************/
 
+/**********¹¥»÷**********/
+message attackRequest
+{
+    int32 targetID = 1;
+    int32 option = 2;
+}
+message attackBroadcast
+{
+    int32 roleID = 1;
+    int32 targetID = 2;
+    int32 option = 3;
+}
+/***********************/
 message testAdd
 {
   int32 a = 1;
