@@ -77,7 +77,7 @@ public class PlayerPanel : MonoBehaviour {
             {
                 TargetID = this.roleID,
                 Option = 0,
-            }
+            };
             SingleNet.Instance.SendMsgCommon(ar, "attack");
         }
     }

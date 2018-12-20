@@ -17,6 +17,8 @@ public delegate void LoginEventHandler(playersInfo pinfos);
 public delegate void PlayerJoinEventHandler(playersInfo pinfo);
 public delegate void PlayerStatusModifyEventHandler(statusBroadcast sb);
 public delegate void PlayerMoveEventHandler(moveBroadcast mb);
+public delegate void AttackEventHandler(attackBroadcast ab);
+
 
 public enum MSG_TYPE
 {
@@ -73,6 +75,7 @@ public class SingleNet : SingleInstance<SingleNet>
     public event PlayerJoinEventHandler PlayerJoinEvent;
     public event PlayerStatusModifyEventHandler PlayerStatusModify;
     public event PlayerMoveEventHandler PlayerMove;
+    public event AttackEventHandler AttackEvent;
 
     public void ConnectGameServer(string serverURL, int port)
     {
@@ -161,6 +164,11 @@ public class SingleNet : SingleInstance<SingleNet>
                 chatBroadcast cb = chatBroadcast.Parser.ParseFrom(msg);
                 ChatEvent(cb);
                 Debug.Log("聊天新消息");
+                break;
+            case "rpcMsg:attackBroad":
+                attackBroadcast ab = attackBroadcast.Parser.ParseFrom(msg);
+                AttackEvent(ab);
+                Debug.Log("攻击消息");
                 break;
             default:
                 break;

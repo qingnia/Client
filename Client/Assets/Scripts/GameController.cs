@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
     public Dictionary<int, WaitPlayer> waitPlayers = new Dictionary<int, WaitPlayer>();
     public List<Protobuf.moveBroadcast> moveCache = new List<Protobuf.moveBroadcast>();
+    public List<Protobuf.attackBroadcast> attackCache = new List<Protobuf.attackBroadcast>();
     private Dictionary<int, Dictionary<int, Room>> roomMap;
 
     //Room[][] roomMaps = new Room[100][];
@@ -45,6 +46,7 @@ public class GameController : MonoBehaviour
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
         SingleNet.Instance.PlayerMove += OnPlayerMove;
+        SingleNet.Instance.AttackEvent += OnAttackEvent;
         cf = config.GetComponent<Config>();
 
         InitGame();
@@ -56,6 +58,9 @@ public class GameController : MonoBehaviour
     //玩家移动控制player,玩家状态改变控制playerpanel
     void Update()
     {
+        //响应攻击消息
+        TryAttack();
+
         //先执行移动
         PlayerTryMove();
         //只有在自己行动回合，才监听输入，否则只接收网络消息
@@ -93,6 +98,12 @@ public class GameController : MonoBehaviour
     public void OnPlayerMove(Protobuf.moveBroadcast mb)
     {
         this.moveCache.Add(mb);
+    }
+
+    public void OnAttackEvent(Protobuf.attackBroadcast ab)
+    {
+        this.attackCache.Add(ab);
+        GameHisEvent("接收到攻击消息");
     }
 
     public Direction GetInputDir()
@@ -148,8 +159,7 @@ public class GameController : MonoBehaviour
             }
             Player p = playerList[roleID];
             Direction dir = (Direction)item.Direction;
-
-            Debug.Log("处理玩家移动 role:" + roleID);
+            
             GameHisEvent("玩家" + roleID + "向" + dir + "移动");
 
             Vector3 nextPos = CommonFun.NextPos(p.transform.position, dir);
@@ -175,17 +185,30 @@ public class GameController : MonoBehaviour
             }
             if (item.NextActionRoleID > 0)
             {
-                Debug.Log("行动切换，接下来是" + item.NextActionRoleID);
                 GameHisEvent("行动切换，接下来是" + item.NextActionRoleID);
                 this.actionRoleID = item.NextActionRoleID;
             }
             if (item.NeedAttack)
             {
-                Debug.Log("玩家需要选择是否攻击");
                 GameHisEvent("玩家需要选择是否攻击");
             }
         }
         moveCache.Clear();
+    }
+    void TryAttack()
+    {
+        if (this.attackCache.Count <= 0)
+        {
+            return;
+        }
+        foreach (var item in attackCache)
+        {
+            int roleID = item.RoleID;
+            int targetID = item.TargetID;
+
+            GameHisEvent("玩家" + roleID + "攻击了" + targetID);
+        }
+        attackCache.Clear();
     }
 
     private void InitPlayerList()
@@ -216,7 +239,6 @@ public class GameController : MonoBehaviour
         Vector3 newPos = pp.transform.position;
         switch(characterID)
         {
-            
             case 1:
                 newPos.y -= 160;
                 break;

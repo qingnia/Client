@@ -20,6 +20,7 @@ public class GameScoll : MonoBehaviour {
         His h = his.GetComponent<His>();
         h.hisStr.text = msg;
         his.transform.SetParent(gameHisContent.transform);
+        Debug.Log(msg);
     }
 
     // Update is called once per frame
