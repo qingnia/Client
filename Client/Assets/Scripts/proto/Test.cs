@@ -36,13 +36,14 @@ namespace Protobuf {
             "IAEoBRIRCglkaXJlY3Rpb24YAiABKAUSDgoGcm9vbUlEGAMgASgFEg4KBmNh",
             "cmRJRBgEIAEoBRIYChBuZXh0QWN0aW9uUm9sZUlEGAUgASgFEhIKCm5lZWRB",
             "dHRhY2sYBiABKAgiMQoNYXR0YWNrUmVxdWVzdBIQCgh0YXJnZXRJRBgBIAEo",
-            "BRIOCgZvcHRpb24YAiABKAUiQwoPYXR0YWNrQnJvYWRjYXN0Eg4KBnJvbGVJ",
-            "RBgBIAEoBRIQCgh0YXJnZXRJRBgCIAEoBRIOCgZvcHRpb24YAyABKAUiHwoH",
-            "dGVzdEFkZBIJCgFhGAEgASgFEgkKAWIYAiABKAUiGwoLY2hhdFJlcXVlc3QS",
-            "DAoEc2FpZBgBIAEoCSItCg1jaGF0QnJvYWRjYXN0Eg4KBnJvbGVJRBgBIAEo",
-            "BRIMCgRzYWlkGAIgASgJIkkKDFN0b3JlUmVxdWVzdBIMCgRuYW1lGAEgASgJ",
-            "EgsKA251bRgCIAEoBRIOCgZyZXN1bHQYAyABKAUSDgoGbXlMaXN0GAQgAygJ",
-            "IiAKDmNvbW1vblJlc3BvbnNlEg4KBnN0YXR1cxgBIAEoBWIGcHJvdG8z"));
+            "BRIOCgZvcHRpb24YAiABKAUiXgoPYXR0YWNrQnJvYWRjYXN0Eg4KBnJvbGVJ",
+            "RBgBIAEoBRIQCgh0YXJnZXRJRBgCIAEoBRIOCgZvcHRpb24YAyABKAUSCgoC",
+            "ZXQYBCABKAUSDQoFdmFsdWUYBSABKAUiHwoHdGVzdEFkZBIJCgFhGAEgASgF",
+            "EgkKAWIYAiABKAUiGwoLY2hhdFJlcXVlc3QSDAoEc2FpZBgBIAEoCSItCg1j",
+            "aGF0QnJvYWRjYXN0Eg4KBnJvbGVJRBgBIAEoBRIMCgRzYWlkGAIgASgJIkkK",
+            "DFN0b3JlUmVxdWVzdBIMCgRuYW1lGAEgASgJEgsKA251bRgCIAEoBRIOCgZy",
+            "ZXN1bHQYAyABKAUSDgoGbXlMaXN0GAQgAygJIiAKDmNvbW1vblJlc3BvbnNl",
+            "Eg4KBnN0YXR1cxgBIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -54,7 +55,7 @@ namespace Protobuf {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveRequest), global::Protobuf.moveRequest.Parser, new[]{ "Direction" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.moveBroadcast), global::Protobuf.moveBroadcast.Parser, new[]{ "RoleID", "Direction", "RoomID", "CardID", "NextActionRoleID", "NeedAttack" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.attackRequest), global::Protobuf.attackRequest.Parser, new[]{ "TargetID", "Option" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.attackBroadcast), global::Protobuf.attackBroadcast.Parser, new[]{ "RoleID", "TargetID", "Option" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.attackBroadcast), global::Protobuf.attackBroadcast.Parser, new[]{ "RoleID", "TargetID", "Option", "Et", "Value" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.testAdd), global::Protobuf.testAdd.Parser, new[]{ "A", "B" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatRequest), global::Protobuf.chatRequest.Parser, new[]{ "Said" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.chatBroadcast), global::Protobuf.chatBroadcast.Parser, new[]{ "RoleID", "Said" }, null, null, null),
@@ -1503,6 +1504,8 @@ namespace Protobuf {
       roleID_ = other.roleID_;
       targetID_ = other.targetID_;
       option_ = other.option_;
+      et_ = other.et_;
+      value_ = other.value_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1544,6 +1547,28 @@ namespace Protobuf {
       }
     }
 
+    /// <summary>Field number for the "et" field.</summary>
+    public const int EtFieldNumber = 4;
+    private int et_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Et {
+      get { return et_; }
+      set {
+        et_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 5;
+    private int value_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Value {
+      get { return value_; }
+      set {
+        value_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as attackBroadcast);
@@ -1560,6 +1585,8 @@ namespace Protobuf {
       if (RoleID != other.RoleID) return false;
       if (TargetID != other.TargetID) return false;
       if (Option != other.Option) return false;
+      if (Et != other.Et) return false;
+      if (Value != other.Value) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1569,6 +1596,8 @@ namespace Protobuf {
       if (RoleID != 0) hash ^= RoleID.GetHashCode();
       if (TargetID != 0) hash ^= TargetID.GetHashCode();
       if (Option != 0) hash ^= Option.GetHashCode();
+      if (Et != 0) hash ^= Et.GetHashCode();
+      if (Value != 0) hash ^= Value.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1594,6 +1623,14 @@ namespace Protobuf {
         output.WriteRawTag(24);
         output.WriteInt32(Option);
       }
+      if (Et != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Et);
+      }
+      if (Value != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Value);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1610,6 +1647,12 @@ namespace Protobuf {
       }
       if (Option != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Option);
+      }
+      if (Et != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Et);
+      }
+      if (Value != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Value);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1630,6 +1673,12 @@ namespace Protobuf {
       }
       if (other.Option != 0) {
         Option = other.Option;
+      }
+      if (other.Et != 0) {
+        Et = other.Et;
+      }
+      if (other.Value != 0) {
+        Value = other.Value;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1652,6 +1701,14 @@ namespace Protobuf {
           }
           case 24: {
             Option = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Et = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            Value = input.ReadInt32();
             break;
           }
         }

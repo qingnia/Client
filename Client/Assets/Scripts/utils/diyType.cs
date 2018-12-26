@@ -17,7 +17,7 @@ public enum PlayerStatus
     psEnter, psReady, psStart, psIngame, psDead,
 }
 
-enum examType
+public enum examType
 {
     etSpeed, etStrength, etSpirit, etKnowledge,
     etPhysicalDamage, etMindDamage,

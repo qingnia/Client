@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerPanel : MonoBehaviour {
+    public event GameHisHandler GameHisEvent;
 
     public Text characterName, characterSex, characterAge;
     public Text strength, speed, knowledge, spirit;
@@ -14,6 +16,7 @@ public class PlayerPanel : MonoBehaviour {
     private string playerName;
     Dictionary<examType, int> et2Level;
     Dictionary<examType, string[]> etLevel2Value;
+
 
     // Use this for initialization
     void Start () {
@@ -80,5 +83,18 @@ public class PlayerPanel : MonoBehaviour {
             };
             SingleNet.Instance.SendMsgCommon(ar, "attack");
         }
+    }
+
+    public void ModifyETValue(examType et, int num)
+    {
+        if (et2Level[et] + num <= 0)
+        {
+            GameHisEvent("玩家" + roleID + "已死亡");
+            return;
+        }
+        et2Level[et] += num;
+        SetShowInfo();
+
+        //GameHisEvent("属性" + et + "变化了" + num + "新值：" + et2Level[et]);
     }
 }

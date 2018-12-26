@@ -70,6 +70,8 @@ message attackBroadcast
     int32 roleID = 1;
     int32 targetID = 2;
     int32 option = 3;
+    int32 et = 4;
+    int32 value = 5;
 }
 /***********************/
 message testAdd

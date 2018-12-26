@@ -37,7 +37,6 @@ public class GameController : MonoBehaviour
     private int roomCount = 1;
     public int actionRoleID;
 
-
     // Use this for initialization
     void Start()
     {
@@ -103,7 +102,6 @@ public class GameController : MonoBehaviour
     public void OnAttackEvent(Protobuf.attackBroadcast ab)
     {
         this.attackCache.Add(ab);
-        GameHisEvent("接收到攻击消息");
     }
 
     public Direction GetInputDir()
@@ -205,8 +203,12 @@ public class GameController : MonoBehaviour
         {
             int roleID = item.RoleID;
             int targetID = item.TargetID;
+            int et = item.Et;
+            int value = item.Value;
 
             GameHisEvent("玩家" + roleID + "攻击了" + targetID);
+
+            playerList[roleID].playerPanel.GetComponent<PlayerPanel>().ModifyETValue((examType)et, value);
         }
         attackCache.Clear();
     }
@@ -227,7 +229,6 @@ public class GameController : MonoBehaviour
         go.transform.parent = this.transform;
         go.name = "动态" + playerList.Count;
         Player p = go.GetComponent<Player>();
-        p.InitPlayer(characterID, roleID);
 
         //状态UI玩家
         GameObject pp = Instantiate(playerPanelPrefab);
@@ -258,6 +259,8 @@ public class GameController : MonoBehaviour
         }
         pp.transform.position = newPos;
         pp.transform.SetParent(playerStatusUI.transform, false);
+
+        p.InitPlayer(characterID, roleID, pp);
 
         playerList[roleID] = p;
     }

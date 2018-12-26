@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
     
     public int RoleID { get; set; }
     public int CharacterID { get; set; }
+
+    public GameObject playerPanel;
     // Use this for initialization
     void Start () {
 		
@@ -17,13 +19,14 @@ public class Player : MonoBehaviour {
 
     }
 
-    public void InitPlayer(int id, int roleID)
+    public void InitPlayer(int id, int roleID, GameObject pp)
     {
         CharacterID = id;
         RoleID = roleID;
         Vector3 randomVec = transform.position;
         randomVec.x += id * 2;
         transform.position = randomVec;
+        playerPanel = pp;
     }
 
 }
