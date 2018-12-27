@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
 
     private GameObject playerPrefab;
     private GameObject playerPanelPrefab;
-    private GameObject roomPrefab;
+    private GameObject roomPrefab, resPrefab;
     private Config cf;
 
     private int roomCount = 1;
@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         playerPrefab = (GameObject)Resources.Load("Prefabs/Player");
         playerPanelPrefab = (GameObject)Resources.Load("Prefabs/PlayerPanel");
         roomPrefab = (GameObject)Resources.Load("Prefabs/Room");
+        resPrefab = (GameObject)Resources.Load("Prefabs/Res");
         SingleNet.Instance.PlayerMove += OnPlayerMove;
         SingleNet.Instance.AttackEvent += OnAttackEvent;
         cf = config.GetComponent<Config>();
@@ -208,7 +209,7 @@ public class GameController : MonoBehaviour
 
             GameHisEvent("玩家" + roleID + "攻击了" + targetID);
 
-            playerList[roleID].playerPanel.GetComponent<PlayerPanel>().ModifyETValue((examType)et, value);
+            playerList[targetID].playerPanel.GetComponent<PlayerPanel>().ModifyETValue((examType)et, value);
         }
         attackCache.Clear();
     }

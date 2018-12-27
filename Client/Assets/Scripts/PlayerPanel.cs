@@ -17,11 +17,10 @@ public class PlayerPanel : MonoBehaviour {
     Dictionary<examType, int> et2Level;
     Dictionary<examType, string[]> etLevel2Value;
 
-
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -89,7 +88,7 @@ public class PlayerPanel : MonoBehaviour {
     {
         if (et2Level[et] + num <= 0)
         {
-            GameHisEvent("玩家" + roleID + "已死亡");
+            //GameHisEvent("玩家" + roleID + "已死亡");
             return;
         }
         et2Level[et] += num;

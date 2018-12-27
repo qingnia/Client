@@ -6,9 +6,11 @@ public class Config : MonoBehaviour
 {
     private Dictionary<int, Dictionary<string, string>> roomConfig = new Dictionary<int, Dictionary<string, string>>();
     private Dictionary<int, Dictionary<string, string>> playerConfig = new Dictionary<int, Dictionary<string, string>>();
-    
+    private Dictionary<int, Dictionary<string, string>> resConfig = new Dictionary<int, Dictionary<string, string>>();
+
     public TextAsset player;
     public TextAsset room;
+    public TextAsset res;
 
     public Dictionary<string, string> GetRoomConfig(int roomID)
     {
@@ -30,6 +32,16 @@ public class Config : MonoBehaviour
             playerConfig = LoadCsvData(player);
         }
         return playerConfig[playerID];
+    }
+
+    public Dictionary<string, string> GetResConfig(int resID)
+    {
+        if (resConfig.Count == 0)
+        {
+            //playerConfig = CSVFileHelper.OpenCSV("Assets/Tables/Player.csv");
+            resConfig = LoadCsvData(res);
+        }
+        return resConfig[resID];
     }
 
     private Dictionary<int, Dictionary<string, string>> LoadCsvData(TextAsset ta)
